@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800px" height="600px" viewBox="0 0 800 600" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Education Hero</title>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="#F8FAFC" x="0" y="0" width="800" height="600"></rect>
+        <g transform="translate(100.000000, 75.000000)">
+            <!-- Books stack -->
+            <rect fill="#4F46E5" x="0" y="350" width="250" height="40" rx="4"></rect>
+            <rect fill="#8B5CF6" x="15" y="310" width="270" height="40" rx="4"></rect>
+            <rect fill="#EC4899" x="30" y="270" width="240" height="40" rx="4"></rect>
+            <rect fill="#14B8A6" x="20" y="230" width="260" height="40" rx="4"></rect>
+            <rect fill="#F97316" x="10" y="190" width="280" height="40" rx="4"></rect>
+            
+            <!-- Graduation cap -->
+            <g transform="translate(400.000000, 150.000000)">
+                <rect fill="#1E293B" x="40" y="120" width="120" height="20" rx="2"></rect>
+                <polygon fill="#1E293B" points="100 0 50 25 150 25"></polygon>
+                <rect fill="#1E293B" x="75" y="25" width="50" height="95"></rect>
+                <rect fill="#64748B" x="40" y="95" width="120" height="25" rx="2"></rect>
+                <circle fill="#FCD34D" cx="100" cy="105" r="8"></circle>
+            </g>
+            
+            <!-- Student with laptop -->
+            <g transform="translate(150.000000, 100.000000)">
+                <!-- Laptop -->
+                <rect fill="#475569" x="0" y="50" width="120" height="80" rx="4"></rect>
+                <rect fill="#E2E8F0" x="10" y="60" width="100" height="60" rx="2"></rect>
+                <rect fill="#475569" x="-15" y="130" width="150" height="10" rx="2"></rect>
+                
+                <!-- Student figure -->
+                <circle fill="#FB7185" cx="180" cy="30" r="30"></circle>
+                <rect fill="#FB7185" x="150" y="60" width="60" height="100" rx="10"></rect>
+                <rect fill="#334155" x="150" y="110" width="60" height="50" rx="4"></rect>
+                <rect fill="#FB7185" x="140" y="60" width="20" height="70" rx="6"></rect>
+                <rect fill="#FB7185" x="200" y="60" width="20" height="70" rx="6"></rect>
+            </g>
+            
+            <!-- Decorative elements -->
+            <circle fill="#EAB308" opacity="0.3" cx="500" cy="50" r="40"></circle>
+            <circle fill="#10B981" opacity="0.2" cx="450" cy="350" r="30"></circle>
+            <circle fill="#F43F5E" opacity="0.2" cx="50" cy="100" r="20"></circle>
+            
+            <!-- Formulas and mathematical symbols scattered around -->
+            <text font-family="Arial" font-size="14" fill="#64748B" x="450" y="30">E = mc²</text>
+            <text font-family="Arial" font-size="14" fill="#64748B" x="520" y="90">π ≈ 3.14159</text>
+            <text font-family="Arial" font-size="14" fill="#64748B" x="480" y="290">√(a² + b²) = c</text>
+            <text font-family="Arial" font-size="14" fill="#64748B" x="420" y="340">F = ma</text>
+            <text font-family="Arial" font-size="14" fill="#64748B" x="350" y="120">∑ f(x) Δx</text>
+        </g>
+    </g>
+</svg>

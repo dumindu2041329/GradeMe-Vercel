@@ -1,0 +1,423 @@
+/* Glassmorphism Effects */
+
+/* Basic glass effect for all cards */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode glass effect */
+:root:not(.light) .glass-effect {
+  background: rgba(20, 22, 36, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Card with glass effect */
+.glass-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* Dark mode glass cards */
+:root:not(.light) .glass-card {
+  background: rgba(20, 22, 36, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Glass navbar */
+.glass-navbar {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode glass navbar */
+:root:not(.light) .glass-navbar {
+  background: rgba(20, 22, 36, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Glass button */
+.glass-button {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.glass-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Dark mode glass button */
+:root:not(.light) .glass-button {
+  background: linear-gradient(
+    135deg,
+    rgba(124, 58, 237, 0.8) 0%,
+    rgba(124, 58, 237, 0.6) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+:root:not(.light) .glass-button:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(124, 58, 237, 0.9) 0%,
+    rgba(124, 58, 237, 0.7) 100%
+  );
+}
+
+/* Glass sidebar */
+.glass-sidebar {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode glass sidebar */
+:root:not(.light) .glass-sidebar {
+  background: rgba(20, 22, 36, 0.3);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Glass input field */
+.glass-input {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+.glass-input:focus {
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.3);
+}
+
+/* Dark mode glass input */
+:root:not(.light) .glass-input {
+  background: rgba(20, 22, 36, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+:root:not(.light) .glass-input:focus {
+  background: rgba(20, 22, 36, 0.5);
+  border: 1px solid rgba(124, 58, 237, 0.5);
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.3);
+}
+
+/* Glass modal/dialog */
+.glass-modal {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark mode glass modal */
+:root:not(.light) .glass-modal {
+  background: rgba(20, 22, 36, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Glass dropdown menu */
+.glass-dropdown {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode glass dropdown */
+:root:not(.light) .glass-dropdown {
+  background: rgba(20, 22, 36, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.25);
+}
+
+/* Glass table */
+.glass-table {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Glass table header */
+.glass-table thead {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Glass table rows alternating */
+.glass-table tbody tr:nth-child(odd) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Dark mode glass table */
+:root:not(.light) .glass-table {
+  background: rgba(20, 22, 36, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+:root:not(.light) .glass-table thead {
+  background: rgba(20, 22, 36, 0.4);
+}
+
+:root:not(.light) .glass-table tbody tr:nth-child(odd) {
+  background: rgba(20, 22, 36, 0.4);
+}
+
+/* Glass badge */
+.glass-badge {
+  background: rgba(124, 58, 237, 0.2);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 9999px;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Glass hover card */
+.glass-hover-card {
+  transition: all 0.3s ease;
+}
+
+.glass-hover-card:hover {
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode glass hover effect */
+:root:not(.light) .glass-hover-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}
+/* Login modal that stays dark regardless of theme */
+.login-modal-dark {
+  background: rgba(20, 22, 36, 0.4) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+  color: hsl(213, 31%, 91%) !important;
+}
+
+/* Ensure all text elements inside login modal are light colored */
+.login-modal-dark * {
+  color: hsl(213, 31%, 91%) !important;
+}
+
+/* Override any light theme colors for the login modal */
+.login-modal-dark .text-muted-foreground {
+  color: hsl(215, 20%, 65%) !important;
+}
+
+/* Dark input styling for login modal */
+.login-modal-dark .glass-input {
+  background: rgba(20, 22, 36, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: hsl(213, 31%, 91%) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.login-modal-dark .glass-input:focus {
+  background: rgba(20, 22, 36, 0.7) !important;
+  border: 1px solid rgba(124, 58, 237, 0.5) !important;
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.3) !important;
+}
+
+.login-modal-dark .glass-input::placeholder {
+  color: hsl(215, 20%, 65%) !important;
+}
+
+/* Prevent browser autofill from overriding the background in login modal */
+.login-modal-dark .glass-input:-webkit-autofill,
+.login-modal-dark .glass-input:-webkit-autofill:hover,
+.login-modal-dark .glass-input:-webkit-autofill:focus,
+.login-modal-dark .glass-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px rgba(20, 22, 36, 0.6) inset !important;
+  -webkit-text-fill-color: hsl(213, 31%, 91%) !important;
+  background: rgba(20, 22, 36, 0.6) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Additional autofill fix for other browsers */
+.login-modal-dark .glass-input:autofill {
+  background: rgba(20, 22, 36, 0.6) !important;
+  color: hsl(213, 31%, 91%) !important;
+}
+
+/* Ensure password fields allow text selection */
+input[type="password"] {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+}
+
+/* Allow text selection on all inputs */
+input[type="text"], input[type="email"], input[type="password"] {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+}
+
+/* Dark glassmorphism toast notifications - matching landing page theme */
+.glass-toast {
+  background: rgba(15, 23, 42, 0.85) !important; /* slate-900 with opacity */
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(148, 163, 184, 0.15) !important; /* slate-400 with low opacity */
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2) !important;
+  color: rgb(248, 250, 252) !important; /* slate-50 */
+}
+
+/* Toast variants with enhanced glassmorphism matching the landing page gradient */
+.glass-toast-success {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(34, 197, 94, 0.15) 100%) !important;
+  border: 1px solid rgba(34, 197, 94, 0.25) !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 20px 25px -5px rgba(34, 197, 94, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.2) !important;
+  color: rgb(34, 197, 94) !important;
+}
+
+.glass-toast-error {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(239, 68, 68, 0.15) 100%) !important;
+  border: 1px solid rgba(239, 68, 68, 0.25) !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 20px 25px -5px rgba(239, 68, 68, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.2) !important;
+  color: rgb(239, 68, 68) !important;
+}
+
+.glass-toast-warning {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(245, 158, 11, 0.15) 100%) !important;
+  border: 1px solid rgba(245, 158, 11, 0.25) !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 20px 25px -5px rgba(245, 158, 11, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.2) !important;
+  color: rgb(245, 158, 11) !important;
+}
+
+.glass-toast-info {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(59, 130, 246, 0.15) 100%) !important;
+  border: 1px solid rgba(59, 130, 246, 0.25) !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.2) !important;
+  color: rgb(59, 130, 246) !important;
+}
+
+/* Toast text styling for better readability */
+.glass-toast .font-semibold {
+  color: rgb(248, 250, 252) !important; /* slate-50 for titles */
+  font-weight: 600;
+}
+
+.glass-toast .opacity-90 {
+  color: rgb(203, 213, 225) !important; /* slate-300 for descriptions */
+  opacity: 1 !important;
+}
+
+/* Enhanced toast close button styling */
+.glass-toast [toast-close] {
+  color: rgb(148, 163, 184) !important; /* slate-400 */
+  opacity: 0.8;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+}
+
+.glass-toast [toast-close]:hover {
+  opacity: 1;
+  background: rgba(148, 163, 184, 0.1) !important;
+  transform: scale(1.05);
+}
+
+/* Success toast close button */
+.glass-toast-success [toast-close] {
+  color: rgb(34, 197, 94) !important;
+}
+
+.glass-toast-success [toast-close]:hover {
+  background: rgba(34, 197, 94, 0.1) !important;
+}
+
+/* Error toast close button */
+.glass-toast-error [toast-close] {
+  color: rgb(239, 68, 68) !important;
+}
+
+.glass-toast-error [toast-close]:hover {
+  background: rgba(239, 68, 68, 0.1) !important;
+}
+
+/* Warning toast close button */
+.glass-toast-warning [toast-close] {
+  color: rgb(245, 158, 11) !important;
+}
+
+.glass-toast-warning [toast-close]:hover {
+  background: rgba(245, 158, 11, 0.1) !important;
+}
+
+/* Info toast close button */
+.glass-toast-info [toast-close] {
+  color: rgb(59, 130, 246) !important;
+}
+
+.glass-toast-info [toast-close]:hover {
+  background: rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Dark button styling for login modal */
+.login-modal-dark .glass-button {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.8) 0%, rgba(124, 58, 237, 0.6) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+}
+
+.login-modal-dark .glass-button:hover {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.9) 0%, rgba(124, 58, 237, 0.7) 100%) !important;
+}

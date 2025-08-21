@@ -1,0 +1,560 @@
+{
+  "id": "a5f3e4d2-bb1a-4c33-9821-451f190b8569",
+  "prevId": "6e0f2c33-ff8a-4c32-8721-341f080a9458",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.exams": {
+      "name": "exams",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "subject": {
+          "name": "subject",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "start_time": {
+          "name": "start_time",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "end_time": {
+          "name": "end_time",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "duration": {
+          "name": "duration",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "total_marks": {
+          "name": "total_marks",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "exam_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'upcoming'"
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.results": {
+      "name": "results",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "student_id": {
+          "name": "student_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "exam_id": {
+          "name": "exam_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "score": {
+          "name": "score",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "percentage": {
+          "name": "percentage",
+          "type": "numeric(5, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "submitted_at": {
+          "name": "submitted_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "results_student_id_students_id_fk": {
+          "name": "results_student_id_students_id_fk",
+          "tableFrom": "results",
+          "tableTo": "students",
+          "columnsFrom": [
+            "student_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "results_exam_id_exams_id_fk": {
+          "name": "results_exam_id_exams_id_fk",
+          "tableFrom": "results",
+          "tableTo": "exams",
+          "columnsFrom": [
+            "exam_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.students": {
+      "name": "students",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "name": "password",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "class": {
+          "name": "class",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "enrollment_date": {
+          "name": "enrollment_date",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "phone": {
+          "name": "phone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "address": {
+          "name": "address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "date_of_birth": {
+          "name": "date_of_birth",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "guardian_name": {
+          "name": "guardian_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "guardian_phone": {
+          "name": "guardian_phone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "profile_image": {
+          "name": "profile_image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "students_email_unique": {
+          "name": "students_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      }
+    },
+    "public.users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "name": "password",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "user_role",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'student'"
+        },
+        "is_admin": {
+          "name": "is_admin",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "profile_image": {
+          "name": "profile_image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "student_id": {
+          "name": "student_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email_notifications": {
+          "name": "email_notifications",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "sms_notifications": {
+          "name": "sms_notifications",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "email_exam_results": {
+          "name": "email_exam_results",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "email_upcoming_exams": {
+          "name": "email_upcoming_exams",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "sms_exam_results": {
+          "name": "sms_exam_results",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "sms_upcoming_exams": {
+          "name": "sms_upcoming_exams",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "users_student_id_students_id_fk": {
+          "name": "users_student_id_students_id_fk",
+          "tableFrom": "users",
+          "tableTo": "students",
+          "columnsFrom": [
+            "student_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "users_email_unique": {
+          "name": "users_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      }
+    }
+  },
+  "enums": {
+    "public.exam_status": {
+      "name": "exam_status",
+      "schema": "public",
+      "values": [
+        "upcoming",
+        "active",
+        "completed"
+      ]
+    },
+    "public.user_role": {
+      "name": "user_role",
+      "schema": "public",
+      "values": [
+        "admin",
+        "student"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {
+    "public.users": [
+      {
+        "name": "Users can view their own data",
+        "roles": [],
+        "command": "SELECT",
+        "expression": "(((auth.uid())::text = (id)::text) OR (EXISTS ( SELECT 1\n   FROM users u\n  WHERE (((u.id)::text = (auth.uid())::text) AND (u.is_admin = true)))))"
+      },
+      {
+        "name": "Users can update their own data",
+        "roles": [],
+        "command": "UPDATE",
+        "expression": "(((auth.uid())::text = (id)::text) OR (EXISTS ( SELECT 1\n   FROM users u\n  WHERE (((u.id)::text = (auth.uid())::text) AND (u.is_admin = true)))))"
+      },
+      {
+        "name": "Only admins can insert users",
+        "roles": [],
+        "command": "INSERT",
+        "expression": "(EXISTS ( SELECT 1\n   FROM users u\n  WHERE (((u.id)::text = (auth.uid())::text) AND (u.is_admin = true))))"
+      },
+      {
+        "name": "Only admins can delete users",
+        "roles": [],
+        "command": "DELETE",
+        "expression": "(EXISTS ( SELECT 1\n   FROM users u\n  WHERE (((u.id)::text = (auth.uid())::text) AND (u.is_admin = true))))"
+      }
+    ],
+    "public.students": [
+      {
+        "name": "Students can view their own data, admins can view all",
+        "roles": [],
+        "command": "SELECT",
+        "expression": "(is_student_owner((auth.uid())::text, id) OR is_admin((auth.uid())::text))"
+      },
+      {
+        "name": "Students can update their own data, admins can update all",
+        "roles": [],
+        "command": "UPDATE",
+        "expression": "(is_student_owner((auth.uid())::text, id) OR is_admin((auth.uid())::text))"
+      },
+      {
+        "name": "Only admins can insert students",
+        "roles": [],
+        "command": "INSERT",
+        "expression": "(EXISTS ( SELECT 1\n   FROM users u\n  WHERE (((u.id)::text = (auth.uid())::text) AND (u.is_admin = true))))"
+      },
+      {
+        "name": "Only admins can delete students",
+        "roles": [],
+        "command": "DELETE",
+        "expression": "(EXISTS ( SELECT 1\n   FROM users u\n  WHERE (((u.id)::text = (auth.uid())::text) AND (u.is_admin = true))))"
+      }
+    ],
+    "public.exams": [
+      {
+        "name": "Everyone can view exams",
+        "roles": [],
+        "command": "SELECT",
+        "expression": "true"
+      },
+      {
+        "name": "Only admins can insert exams",
+        "roles": [],
+        "command": "INSERT",
+        "expression": "(EXISTS ( SELECT 1\n   FROM users u\n  WHERE (((u.id)::text = (auth.uid())::text) AND (u.is_admin = true))))"
+      },
+      {
+        "name": "Only admins can update exams",
+        "roles": [],
+        "command": "UPDATE",
+        "expression": "(EXISTS ( SELECT 1\n   FROM users u\n  WHERE (((u.id)::text = (auth.uid())::text) AND (u.is_admin = true))))"
+      },
+      {
+        "name": "Only admins can delete exams",
+        "roles": [],
+        "command": "DELETE",
+        "expression": "(EXISTS ( SELECT 1\n   FROM users u\n  WHERE (((u.id)::text = (auth.uid())::text) AND (u.is_admin = true))))"
+      }
+    ],
+    "public.results": [
+      {
+        "name": "Students can view their own results, admins can view all",
+        "roles": [],
+        "command": "SELECT",
+        "expression": "(is_student_owner((auth.uid())::text, student_id) OR is_admin((auth.uid())::text))"
+      },
+      {
+        "name": "Only admins and students can insert their own results",
+        "roles": [],
+        "command": "INSERT",
+        "expression": "(is_student_owner((auth.uid())::text, student_id) OR is_admin((auth.uid())::text))"
+      },
+      {
+        "name": "Only admins can update results",
+        "roles": [],
+        "command": "UPDATE",
+        "expression": "(EXISTS ( SELECT 1\n   FROM users u\n  WHERE (((u.id)::text = (auth.uid())::text) AND (u.is_admin = true))))"
+      },
+      {
+        "name": "Only admins can delete results",
+        "roles": [],
+        "command": "DELETE",
+        "expression": "(EXISTS ( SELECT 1\n   FROM users u\n  WHERE (((u.id)::text = (auth.uid())::text) AND (u.is_admin = true))))"
+      }
+    ]
+  },
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

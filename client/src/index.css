@@ -1,0 +1,409 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Dark theme matching the screenshot */
+  --background: 224 71% 4%;
+  --foreground: 213 31% 91%;
+  --muted: 223 47% 11%;
+  --muted-foreground: 215 20% 65%;
+  --popover: 224 71% 4%;
+  --popover-foreground: 213 31% 91%;
+  --card: 224 71% 4%;
+  --card-foreground: 213 31% 91%;
+  --border: 223 47% 11%;
+  --input: 223 47% 11%;
+  --primary: 252 95% 70%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 223 47% 11%;
+  --secondary-foreground: 213 31% 91%;
+  --accent: 252 95% 70%;
+  --accent-foreground: 213 31% 91%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --ring: 252 95% 70%;
+  --radius: 0.5rem;
+  
+  /* Chart colors */
+  --chart-1: 252 95% 70%;
+  --chart-2: 142 76% 45%;
+  --chart-3: 262 83% 58%;
+  --chart-4: 45 100% 60%;
+  --chart-5: 0 91% 71%;
+  
+  /* Sidebar colors */
+  --sidebar-background: 224 71% 4%;
+  --sidebar-foreground: 213 31% 91%;
+  --sidebar-primary: 252 95% 70%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 223 47% 11%;
+  --sidebar-accent-foreground: 213 31% 91%;
+  --sidebar-border: 223 47% 11%;
+  --sidebar-ring: 252 95% 70%;
+}
+
+.light {
+  /* Modern light theme with blue accent */
+  --background: 0 0% 100%;
+  --foreground: 222 47% 11%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215 16% 47%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --border: 214 32% 91%;
+  --input: 214 32% 91%;
+  --primary: 221 83% 53%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222 47% 11%;
+  --accent: 217 91% 60%;
+  --accent-foreground: 222 47% 11%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --ring: 221 83% 53%;
+  --radius: 0.5rem;
+  
+  /* Chart colors */
+  --chart-1: 221 83% 53%;
+  --chart-2: 142 76% 45%;
+  --chart-3: 262 83% 58%;
+  --chart-4: 30 95% 60%;
+  --chart-5: 0 91% 71%;
+  
+  /* Sidebar colors */
+  --sidebar-background: 213 35% 96%;
+  --sidebar-foreground: 222 47% 11%;
+  --sidebar-primary: 221 83% 53%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 214 59% 92%;
+  --sidebar-accent-foreground: 222 47% 11%;
+  --sidebar-border: 214 59% 92%;
+  --sidebar-ring: 221 83% 53%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply font-sans antialiased bg-background text-foreground min-h-screen transition-colors duration-200;
+  }
+  
+  /* Apply transition to all common elements for smooth theme changes */
+  button, a, input, select, textarea, div, header, footer, nav, main, aside, section, article {
+    @apply transition-colors duration-200;
+  }
+}
+
+@layer components {
+  /* Hide scrollbar styles */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  /* Custom gradient scrollbar styles */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--secondary) / 0.3);
+    border-radius: 5px;
+  }
+  
+  /* Dark theme scrollbar */
+  :root:not(.light) ::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      to bottom,
+      hsl(252 95% 70% / 0.8),
+      hsl(262 83% 58% / 0.8)
+    );
+    border-radius: 5px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+    transition: all 0.3s ease;
+  }
+  
+  :root:not(.light) ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+      to bottom,
+      hsl(252 95% 70%),
+      hsl(262 83% 58%)
+    );
+    border: 1px solid transparent;
+    background-clip: content-box;
+  }
+  
+  /* Light theme scrollbar */
+  .light ::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      to bottom,
+      hsl(221 83% 53% / 0.8),
+      hsl(217 91% 60% / 0.8)
+    );
+    border-radius: 5px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+    transition: all 0.3s ease;
+  }
+  
+  .light ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+      to bottom,
+      hsl(221 83% 53%),
+      hsl(217 91% 60%)
+    );
+    border: 1px solid transparent;
+    background-clip: content-box;
+  }
+  
+  /* Firefox scrollbar styles */
+  :root:not(.light) * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(252 95% 70% / 0.8) hsl(223 47% 11% / 0.3);
+  }
+  
+  .light * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(221 83% 53% / 0.8) hsl(210 40% 96.1% / 0.3);
+  }
+  
+  /* Sidebar specific scrollbar */
+  .sidebar-content::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .sidebar-content::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  :root:not(.light) .sidebar-content::-webkit-scrollbar-thumb {
+    background: hsl(223 47% 20%);
+    border-radius: 10px;
+  }
+  
+  .light .sidebar-content::-webkit-scrollbar-thumb {
+    background: hsl(214 59% 85%);
+    border-radius: 10px;
+  }
+  
+  /* Main content area scrollbar with enhanced gradient */
+  .main-content::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .main-content::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+    margin: 10px 0;
+  }
+  
+  :root:not(.light) .main-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      to bottom,
+      hsl(252 95% 70% / 0.8),
+      hsl(262 83% 58% / 0.8)
+    );
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+  
+  .light .main-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      to bottom,
+      hsl(221 83% 53% / 0.8),
+      hsl(217 91% 60% / 0.8)
+    );
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sidebar-link {
+    @apply flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-all duration-200 font-medium;
+  }
+  
+  .sidebar-link.active {
+    @apply bg-gray-100 dark:bg-gray-800 border-l-2 border-primary text-primary;
+  }
+  
+  /* Animation for mobile sidebar */
+  @keyframes slide-in {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  
+  .animate-slide-in {
+    animation: slide-in 0.3s ease-out;
+  }
+  
+  /* Remove transparency from Sheet overlay and content */
+  [data-radix-sheet-overlay] {
+    @apply !bg-transparent;
+  }
+  
+  [data-radix-sheet-content] {
+    @apply !opacity-100;
+    background-color: hsl(224, 71%, 4%) !important;
+  }
+  
+  /* Specific styles for mobile sidebar to ensure no transparency */
+  .mobile-sidebar {
+    background-color: hsl(224, 71%, 4%) !important;
+    opacity: 1 !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  
+  .mobile-sidebar::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: hsl(224, 71%, 4%);
+    z-index: -1;
+  }
+  
+  /* Custom cursor and text selection styles */
+  * {
+    caret-color: hsl(var(--primary));
+  }
+  
+  input, textarea {
+    caret-color: hsl(var(--primary));
+  }
+  
+  input:focus, textarea:focus {
+    caret-color: hsl(var(--primary));
+    outline-color: hsl(var(--ring));
+  }
+  
+  ::selection {
+    background-color: hsl(var(--primary) / 0.3);
+    color: hsl(var(--primary-foreground));
+  }
+  
+  ::-moz-selection {
+    background-color: hsl(var(--primary) / 0.3);
+    color: hsl(var(--primary-foreground));
+  }
+
+  /* Page transition animations - optimized for speed */
+  /* Apply consistent background to all key elements to prevent white flashes */
+  html, body, #root, .page-container, .route-content {
+    background-color: hsl(var(--background));
+  }
+  
+  /* Enhance page transitions */
+  .page-container {
+    position: relative;
+    height: 100%;
+    min-height: 100vh;
+    background-color: hsl(var(--background));
+  }
+  
+  /* Set body background explicitly */
+  body {
+    background-color: hsl(var(--background)) !important;
+  }
+  
+  /* Ultra-fast transitions to reduce visible delays */
+  .page-fade {
+    opacity: 1;
+    transition: opacity 60ms ease-out;
+    min-height: 100vh;
+    background-color: hsl(var(--background));
+  }
+  
+  .page-fade-visible {
+    opacity: 1;
+  }
+  
+  .content-fade {
+    opacity: 0.98;
+    transition: opacity 60ms ease-out;
+    background-color: hsl(var(--background));
+  }
+  
+  .content-fade-visible {
+    opacity: 1;
+  }
+  
+  /* Transition wrapper for smoother navigation */
+  .transition-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: hsl(var(--background));
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: opacity 80ms ease-out;
+  }
+  
+  .transition-wrapper.active {
+    opacity: 1;
+  }
+  
+  .page-transition {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+    background-color: hsl(var(--background));
+    min-height: 100vh;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+  
+  .page-transition.transitioning {
+    opacity: 0.96;
+    transform: translateY(3px);
+  }
+  
+  /* Preload animation for content */
+  .content-loading {
+    position: relative;
+    min-height: 100px;
+  }
+  
+  .content-loading::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsla(var(--background), 0.1),
+      transparent
+    );
+    animation: shimmer 1.5s infinite;
+    z-index: 10;
+  }
+  
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+}
