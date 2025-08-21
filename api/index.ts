@@ -4,10 +4,9 @@ let app: any | null = null;
 export default async function handler(req: any, res: any) {
   try {
     if (!app) {
-      // Load bundled CJS file using require to avoid ESM dynamic require issues inside deps
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const mod = require('../dist/app.cjs');
-      const createApp = (mod as any).createApp || (mod as any).default;
+      const mod: any = await import('../dist/app.cjs');
+      const createApp = mod.createApp || mod.default?.createApp || (typeof mod.default === 'function' ? mod.default : null);
+      if (!createApp) throw new Error('Failed to load createApp from dist/app.cjs');
       app = createApp();
     }
     return app(req, res);
