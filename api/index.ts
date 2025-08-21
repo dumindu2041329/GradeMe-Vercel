@@ -4,10 +4,9 @@ let app: any | null = null;
 export default async function handler(req: any, res: any) {
   try {
     if (!app) {
-      const modulePath = process.env.NODE_ENV === 'production'
-        ? '../dist/app.js'
-        : '../dist/app.js';
-      const mod = await import(modulePath as string);
+      // Load bundled CJS file using require to avoid ESM dynamic require issues inside deps
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const mod = require('../dist/app.cjs');
       const createApp = (mod as any).createApp || (mod as any).default;
       app = createApp();
     }
