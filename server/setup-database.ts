@@ -1,6 +1,6 @@
 import { getDb } from './db-connection.js';
 import { users, students } from '../shared/schema.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
 
 const db = getDb();

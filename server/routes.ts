@@ -5,7 +5,7 @@ import { getDb, isDbConnected } from "./db-connection";
 import { desc, eq, and, sql } from "drizzle-orm";
 import { exams, users, students, results, passwordResetTokens, type User, type Student, type Exam, type Result } from "../shared/schema.js";
 import { storage } from "./storage";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { requireAdmin, requireStudent, requireAuth, supabaseMiddleware } from "./supabase-middleware";
 import { paperFileStorage } from "./paper-file-storage";
 import { registerQuestionRoutes } from "./question-routes";
