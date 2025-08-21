@@ -197,6 +197,17 @@ export async function registerRoutes(app: Express, server?: Server): Promise<voi
   });
 
   // Authentication routes
+  // Explicitly handle GET for login endpoints to avoid 404/"Cannot GET" when probed by browsers/monitors
+  app.get("/api/auth/login", (_req: Request, res: Response) => {
+    res.setHeader('Allow', 'POST');
+    res.status(405).json({ message: "Method Not Allowed. Use POST to /api/auth/login" });
+  });
+
+  app.get("/api/auth/student/login", (_req: Request, res: Response) => {
+    res.setHeader('Allow', 'POST');
+    res.status(405).json({ message: "Method Not Allowed. Use POST to /api/auth/student/login" });
+  });
+
   app.post("/api/auth/login", async (req: Request, res: Response) => {
     try {
       const { email, password }: LoginCredentials = req.body;
