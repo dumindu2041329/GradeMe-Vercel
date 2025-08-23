@@ -338,8 +338,11 @@ export async function registerRoutes(app: Express, server?: Server): Promise<voi
         return res.json({ message: "If the email exists, a reset link has been sent" });
       }
 
-      // Send reset email
-      const emailSent = await emailService.sendPasswordResetEmail(email, result.token!);
+      // Build base URL from request origin or env and send reset email
+      const proto = (req.headers['x-forwarded-proto'] as string) || req.protocol;
+      const host = (req.headers['x-forwarded-host'] as string) || req.headers.host;
+      const origin = host ? `${proto}://${host}` : undefined;
+      const emailSent = await emailService.sendPasswordResetEmail(email, result.token!, origin);
       
       if (emailSent) {
         res.json({ message: "Password reset link sent to your email" });

@@ -331,8 +331,10 @@ export class EmailService {
     }
   }
 
-  async sendPasswordResetEmail(email: string, token: string): Promise<boolean> {
-    const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5000'}/reset-password?token=${token}`;
+  async sendPasswordResetEmail(email: string, token: string, baseUrl?: string): Promise<boolean> {
+    const envBase = process.env.FRONTEND_URL || process.env.NEXT_PUBLIC_SITE_URL || process.env.PUBLIC_BASE_URL;
+    const resolvedBase = (baseUrl && baseUrl.trim()) || envBase || 'http://localhost:5000';
+    const resetUrl = `${resolvedBase.replace(/\/$/, '')}/reset-password?token=${token}`;
     
     const emailData: EmailData = {
       to: email,
