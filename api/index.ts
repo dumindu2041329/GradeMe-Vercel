@@ -1,3 +1,5 @@
+/// <reference path="./dist-app-cjs.d.ts" />
+ 
 // Lazy initialize the Express app to reuse between invocations
 let app: any | null = null;
 
