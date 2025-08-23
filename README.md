@@ -141,9 +141,9 @@ The provided `vercel.json` handles rewrites so that:
 ## Architecture
 ```mermaid
 flowchart LR
-  A[React + Vite (Client)] -- fetch --> B[Express API (Vercel Function)]
-  B -- queries --> C[(PostgreSQL / Supabase)]
-  A -- static assets --> D[CDN / dist/public]
+  A["React + Vite (Client)"] -- "fetch" --> B["Express API (Vercel Function)"]
+  B -- "queries" --> C[("PostgreSQL / Supabase")]
+  A -- "static assets" --> D["CDN / dist/public"]
 ```
 
 ## Contributing
