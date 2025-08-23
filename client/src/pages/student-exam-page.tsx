@@ -78,6 +78,46 @@ export default function StudentExamPage() {
   const [showResultDialog, setShowResultDialog] = useState(false);
   const [showSubmitConfirmation, setShowSubmitConfirmation] = useState(false);
   
+  // Local storage helpers for attempt start time (per student per exam)
+  const getAttemptKey = useCallback(() => {
+    if (!user?.studentId || !id) return null;
+    return `examAttempt_${user.studentId}_${id}`;
+  }, [user?.studentId, id]);
+  
+  const readAttemptStartTime = useCallback((): number | null => {
+    const key = getAttemptKey();
+    if (!key) return null;
+    try {
+      const raw = localStorage.getItem(key);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw) as { startTime: string };
+      const ts = parsed?.startTime ? new Date(parsed.startTime).getTime() : NaN;
+      return Number.isFinite(ts) ? ts : null;
+    } catch {
+      return null;
+    }
+  }, [getAttemptKey]);
+  
+  const writeAttemptStartTime = useCallback((startTsMs: number) => {
+    const key = getAttemptKey();
+    if (!key) return;
+    try {
+      localStorage.setItem(key, JSON.stringify({ startTime: new Date(startTsMs).toISOString() }));
+    } catch {
+      // ignore storage errors
+    }
+  }, [getAttemptKey]);
+  
+  const clearAttempt = useCallback(() => {
+    const key = getAttemptKey();
+    if (!key) return;
+    try {
+      localStorage.removeItem(key);
+    } catch {
+      // ignore
+    }
+  }, [getAttemptKey]);
+  
   // Fetch exam data
   const { data: exam, isLoading } = useQuery<Exam>({
     queryKey: [`/api/exams/${id}`, user?.studentId],
@@ -97,13 +137,21 @@ export default function StudentExamPage() {
     ].join(':');
   }, []);
   
-  // Initialize timer when exam data is loaded
+  // Initialize timer when exam data is loaded (resume across re-entry)
   useEffect(() => {
-    if (exam && timeRemaining === null) {
-      // Convert duration from minutes to seconds
-      setTimeRemaining(exam.duration * 60);
+    if (!exam || timeRemaining !== null) return;
+    const durationSeconds = Math.max(0, (exam.duration || 0) * 60);
+    const existingStart = readAttemptStartTime();
+    const now = Date.now();
+    let startTs = existingStart ?? now;
+    // If no prior start stored, create one now
+    if (!existingStart) {
+      writeAttemptStartTime(startTs);
     }
-  }, [exam, timeRemaining]);
+    const elapsedSeconds = Math.floor((now - startTs) / 1000);
+    const remaining = Math.max(0, durationSeconds - elapsedSeconds);
+    setTimeRemaining(remaining);
+  }, [exam, timeRemaining, readAttemptStartTime, writeAttemptStartTime]);
   
   // Submit exam mutation
   const submitExamMutation = useMutation({
@@ -128,6 +176,8 @@ export default function StudentExamPage() {
       setShowResultDialog(true);
       // Invalidate student dashboard data to refresh exam lists
       queryClient.invalidateQueries({ queryKey: ["/api/student/dashboard"] });
+      // Clear attempt timing on successful submission
+      clearAttempt();
     },
     onError: (error) => {
       toast({
