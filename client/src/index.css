@@ -92,6 +92,13 @@
     @apply font-sans antialiased bg-background text-foreground min-h-screen transition-colors duration-200;
   }
   
+  /* Enable smooth scrolling on desktop when user has not requested reduced motion */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  
   /* Apply transition to all common elements for smooth theme changes */
   button, a, input, select, textarea, div, header, footer, nav, main, aside, section, article {
     @apply transition-colors duration-200;
