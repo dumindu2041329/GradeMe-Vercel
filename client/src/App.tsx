@@ -160,6 +160,27 @@ function Router() {
   const { user } = useAuth();
   const [location, navigate] = useLocation();
   
+  // Compute a readable title for the current route
+  const getTitleForPath = (path: string): string => {
+    const base = "GradeMe";
+    if (path === "/") return `${base} | Next-Gen Education Platform`;
+    if (path === "/reset-password") return `Reset Password - ${base}`;
+    if (path === "/admin") return `Admin Dashboard - ${base}`;
+    if (path === "/exams") return `Exams - ${base}`;
+    if (/^\/exams\/.+\/paper$/.test(path)) return `Paper Creation - ${base}`;
+    if (path === "/students") return `Students - ${base}`;
+    if (path === "/results") return `Results - ${base}`;
+    if (path === "/profile") return `Profile - ${base}`;
+    if (path === "/email-management") return `Email Management - ${base}`;
+    if (path === "/student/dashboard" || path === "/student") return `Student Dashboard - ${base}`;
+    if (path === "/student/exams") return `My Exams - ${base}`;
+    if (path === "/student/results") return `My Results - ${base}`;
+    if (/^\/student\/exam\/.+/.test(path)) return `Exam - ${base}`;
+    if (path === "/student/profile") return `Student Profile | Exam Management System`;
+    if (path === "/student/academic-info") return `Academic Info - ${base}`;
+    return `Not Found - ${base}`;
+  };
+  
   // Redirect based on user role when already authenticated
   useEffect(() => {
     if (user && user.id && user.email) {
@@ -173,6 +194,11 @@ function Router() {
       }
     }
   }, [user, location, navigate]);
+
+  // Update the document title on route change
+  useEffect(() => {
+    document.title = getTitleForPath(location);
+  }, [location]);
 
   // Get current route content
   function getRouteContent() {
