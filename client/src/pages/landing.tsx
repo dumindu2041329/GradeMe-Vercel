@@ -6,6 +6,7 @@ import { GraduationCap, BookOpen, Award, Users, Lock, ChevronUp } from "lucide-r
 import { LoginDialog } from "@/components/login-dialog";
 import { ThreeScene } from "@/components/three-scene";
 import { useQuery } from "@tanstack/react-query";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 
 interface LandingStatistics {
@@ -19,6 +20,7 @@ export default function LandingPage() {
   const [, navigate] = useLocation();
   const [showScrollButton, setShowScrollButton] = useState(false);
   const isScrollingRef = useRef(false);
+  const isMobile = useIsMobile();
   
   // Fetch live statistics from Supabase
   const { data: stats, isLoading } = useQuery<LandingStatistics>({
@@ -66,6 +68,64 @@ export default function LandingPage() {
       isScrollingRef.current = false;
     }
   };
+
+  // Desktop-only slow inertial scrolling to mimic mobile feel
+  useEffect(() => {
+    // Only apply on desktop and when user hasn't requested reduced motion
+    if (isMobile) return;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+
+    let rafId: number | null = null;
+    let targetScroll = window.scrollY;
+    let currentScroll = window.scrollY;
+    let isAnimating = false;
+
+    const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
+
+    const step = () => {
+      // Ease towards target
+      currentScroll += (targetScroll - currentScroll) * 0.12; // easing factor
+      window.scrollTo(0, currentScroll);
+      if (Math.abs(targetScroll - currentScroll) > 0.5) {
+        rafId = window.requestAnimationFrame(step);
+      } else {
+        isAnimating = false;
+        currentScroll = targetScroll;
+        window.scrollTo(0, targetScroll);
+        if (rafId) {
+          window.cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+      }
+    };
+
+    const onWheel = (e: WheelEvent) => {
+      // Allow zooming and special gestures
+      if (e.ctrlKey) return;
+      // Enable custom scroll handling
+      e.preventDefault();
+
+      const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+
+      // Slow down desktop delta for smoother feel
+      const slowFactor = 0.35; // smaller => slower
+      const deltaY = e.deltaY * slowFactor;
+      targetScroll = clamp(targetScroll + deltaY, 0, maxScroll);
+
+      if (!isAnimating) {
+        isAnimating = true;
+        rafId = window.requestAnimationFrame(step);
+      }
+    };
+
+    window.addEventListener('wheel', onWheel, { passive: false });
+
+    return () => {
+      window.removeEventListener('wheel', onWheel as EventListener);
+      if (rafId) window.cancelAnimationFrame(rafId);
+    };
+  }, [isMobile]);
 
 
 
