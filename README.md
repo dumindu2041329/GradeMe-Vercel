@@ -36,10 +36,13 @@ GradeMe is an exam management system that enables administrators and educators t
 
 ## Screenshots
 <p align="center">
-  <img src="client/src/assets/education-hero.svg" alt="Landing Hero" width="720" />
+  <img src="docs/screenshots/landing-desktop.png" alt="Landing - Desktop" width="900" />
 </p>
 <p align="center">
-  <img src="client/src/assets/features-image.svg" alt="Features Illustration" width="720" />
+  <img src="docs/screenshots/landing-features-desktop.png" alt="Features - Desktop" width="900" />
+</p>
+<p align="center">
+  <img src="docs/screenshots/landing-mobile.png" alt="Landing - Mobile" width="390" />
 </p>
 
 ## Features

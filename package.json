@@ -10,6 +10,7 @@
     "check": "tsc",
     "db:push": "drizzle-kit push",
     "vercel-build": "vite build && esbuild server/app.ts --platform=node --bundle --format=cjs --outfile=dist/app.cjs",
+    "screenshots": "tsx scripts/screenshot.ts",
     "postinstall": "esbuild server/app.ts --platform=node --bundle --format=cjs --outfile=dist/app.cjs || exit 0"
   },
   "dependencies": {
@@ -114,6 +115,7 @@
     "autoprefixer": "^10.4.20",
     "esbuild": "^0.25.0",
     "postcss": "^8.4.47",
+    "puppeteer": "^23.11.1",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.20.3",
     "typescript": "5.6.3",
