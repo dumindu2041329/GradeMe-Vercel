@@ -31,6 +31,16 @@ A modern exam management platform for students and educators, featuring a polish
 - [Contributing](#contributing)
 - [License](#license)
 
+## Login credentials
+
+### Admin Account
+- email: admin@example.com
+- password: admin123
+
+### Student Account
+- email: student@example.com
+- password: student123
+
 ## Overview
 GradeMe is an exam management system that enables administrators and educators to create exams, manage students, and view results. The frontend is built with React + Vite and Tailwind CSS, while the backend is an Express app deployed as a serverless function on Vercel. The landing page features a Three.js background and smooth inertial scrolling on desktop.
 
