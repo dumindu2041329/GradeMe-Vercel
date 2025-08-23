@@ -2,11 +2,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { AlertCircle, Home, ArrowLeft } from "lucide-react";
+import { ThreeScene } from "@/components/three-scene";
 
 export default function NotFound() {
   const [, navigate] = useLocation();
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
+      {/* Three.js Background */}
+      <div className="absolute inset-0 z-0">
+        <ThreeScene className="w-full h-full" />
+      </div>
       <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-cyan-500/20 blur-3xl" />
       <div className="absolute -bottom-40 -right-40 w-[28rem] h-[28rem] rounded-full bg-purple-500/20 blur-3xl" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.06),transparent_60%)]" />
