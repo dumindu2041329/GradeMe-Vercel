@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -18,6 +18,7 @@ interface LandingStatistics {
 export default function LandingPage() {
   const [, navigate] = useLocation();
   const [showScrollButton, setShowScrollButton] = useState(false);
+  const isScrollingRef = useRef(false);
   
   // Fetch live statistics from Supabase
   const { data: stats, isLoading } = useQuery<LandingStatistics>({
@@ -34,40 +35,35 @@ export default function LandingPage() {
       } else {
         setShowScrollButton(false);
       }
+
+      // Reset scrolling flag once we've reached the top
+      if (window.scrollY === 0 && isScrollingRef.current) {
+        isScrollingRef.current = false;
+      }
     };
-    
+
     // Add scroll event listener
-    window.addEventListener('scroll', handleScroll);
-    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
     // Clean up the event listener on component unmount
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', handleScroll as EventListener);
     };
   }, []);
   
-  // Scroll to top function with smooth animation
+  // Scroll to top function with native smooth behavior and re-entrancy guard
   const scrollToTop = (): void => {
-    // Get the current scroll position
-    const currentPosition = window.pageYOffset || document.documentElement.scrollTop;
-    
-    if (currentPosition > 0) {
-      // Custom smooth scroll with better animation
-      const scrollDuration = 800; // milliseconds
-      const scrollStep = Math.PI / (scrollDuration / 15);
-      let count = 0;
-      let currentPos = window.pageYOffset;
-      
-      const cosParameter = currentPos / 2;
-      
-      const scrollInterval = setInterval(() => {
-        if (window.pageYOffset !== 0) {
-          count += 1;
-          const scrollAmount = cosParameter - cosParameter * Math.cos(count * scrollStep);
-          window.scrollTo(0, currentPos - scrollAmount);
-        } else {
-          clearInterval(scrollInterval);
-        }
-      }, 15);
+    if (isScrollingRef.current) return; // prevent multiple triggers (mobile taps)
+    // If already at top, do nothing
+    if ((window.pageYOffset || document.documentElement.scrollTop) <= 0) return;
+
+    isScrollingRef.current = true;
+    try {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (_) {
+      // Fallback for older browsers
+      window.scrollTo(0, 0);
+      isScrollingRef.current = false;
     }
   };
 
