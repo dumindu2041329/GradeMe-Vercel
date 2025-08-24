@@ -181,9 +181,13 @@ export class SupabaseStorage implements IStorage {
       return null;
     }
     
-    // Use bcryptjs (pure JS) to compare the password to avoid native builds on Vercel
+    // Use bcryptjs (pure JS). Dynamic import can expose compare either at the root or under default
     const bcrypt = await import('bcryptjs');
-    const isValid = await bcrypt.compare(password, student.password);
+    const compareFn = (bcrypt as any).compare || (bcrypt as any).default?.compare;
+    if (typeof compareFn !== 'function') {
+      throw new Error('bcryptjs compare function not available');
+    }
+    const isValid = await compareFn(password, student.password);
     if (!isValid) {
       return null;
     }
