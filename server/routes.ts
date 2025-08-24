@@ -269,7 +269,30 @@ export async function registerRoutes(app: Express, server?: Server): Promise<voi
       }
       
       // Authenticate the student
-      const student = await storage.authenticateStudent(email, password);
+      let student = await storage.authenticateStudent(email, password);
+      if (!student) {
+        // Fallback path: some historical records may have password synced only in users table
+        // Try authenticating against users table if role is student
+        if (adminUser && adminUser.role === 'student') {
+          const isValid = await bcrypt.compare(password, adminUser.password);
+          if (isValid) {
+            // Find linked student by studentId or email
+            const db = getDb();
+            let linkedStudent = null as any;
+            if (adminUser.studentId) {
+              const rows = await db.select().from(students).where(eq(students.id, adminUser.studentId)).limit(1);
+              linkedStudent = rows[0] || null;
+            }
+            if (!linkedStudent) {
+              const rows = await db.select().from(students).where(eq(students.email, email)).limit(1);
+              linkedStudent = rows[0] || null;
+            }
+            if (linkedStudent) {
+              student = linkedStudent as any;
+            }
+          }
+        }
+      }
       if (!student) {
         // Check if email exists in admin table but not in students table
         if (adminUser) {
