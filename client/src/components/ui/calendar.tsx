@@ -1,10 +1,12 @@
 import * as React from "react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from "lucide-react"
 import { DayPicker } from "react-day-picker"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { Button } from "@/components/ui/button"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { format } from "date-fns"
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
@@ -116,3 +118,55 @@ function Calendar({
 Calendar.displayName = "Calendar"
 
 export { Calendar }
+
+export type DatePickerProps = {
+  selected?: Date
+  onSelect?: (date?: Date) => void
+  placeholder?: string
+  triggerClassName?: string
+  disabled?: (date: Date) => boolean
+} & Omit<CalendarProps, "mode" | "selected" | "onSelect" | "showOutsideDays">
+
+export function DatePicker({
+  selected,
+  onSelect,
+  placeholder = "Pick a date",
+  triggerClassName,
+  disabled,
+  className,
+  ...props
+}: DatePickerProps) {
+  const [open, setOpen] = React.useState(false)
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          className={cn(
+            "w-full pl-3 text-left font-normal",
+            !selected && "text-muted-foreground",
+            triggerClassName
+          )}
+        >
+          {selected ? format(selected, "PPP") : <span>{placeholder}</span>}
+          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className={cn("w-auto p-0", className)} align="start">
+        <Calendar
+          mode="single"
+          selected={selected}
+          onSelect={(date) => {
+            onSelect?.(date)
+            // Close popover after selection for better UX
+            if (date) setOpen(false)
+          }}
+          disabled={disabled}
+          initialFocus
+          {...props}
+        />
+      </PopoverContent>
+    </Popover>
+  )
+}
