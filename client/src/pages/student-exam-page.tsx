@@ -5,6 +5,7 @@ import { queryClient } from "@/lib/queryClient";
 import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { ThreeConfetti } from "@/components/confetti";
 import { Card, CardContent } from "@/components/ui/card";
 import { 
   ArrowLeft, 
@@ -76,6 +77,7 @@ export default function StudentExamPage() {
   const [showTimeWarning, setShowTimeWarning] = useState(false);
   const [examResult, setExamResult] = useState<ExamResult | null>(null);
   const [showResultDialog, setShowResultDialog] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
   const [showSubmitConfirmation, setShowSubmitConfirmation] = useState(false);
   
   // Local storage helpers for attempt start time (per student per exam)
@@ -174,6 +176,7 @@ export default function StudentExamPage() {
     onSuccess: (data) => {
       setExamResult(data);
       setShowResultDialog(true);
+      setShowConfetti(true);
       // Invalidate student dashboard data to refresh exam lists
       queryClient.invalidateQueries({ queryKey: ["/api/student/dashboard"] });
       // Clear attempt timing on successful submission
@@ -307,6 +310,12 @@ export default function StudentExamPage() {
   
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      {showConfetti && (
+        <ThreeConfetti
+          durationMs={5000}
+          onComplete={() => setShowConfetti(false)}
+        />
+      )}
       {/* Exam Header */}
       <header className="border-b border-border bg-background sticky top-0 z-10">
         <div className="container mx-auto px-4">
