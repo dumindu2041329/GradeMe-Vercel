@@ -363,7 +363,7 @@ export default function Students() {
         email: selectedStudent.email,
         class: selectedStudent.class,
         password: "",
-        enrollmentDate: selectedStudent.enrollmentDate ? new Date(selectedStudent.enrollmentDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+        enrollmentDate: selectedStudent.enrollmentDate ? format(new Date(selectedStudent.enrollmentDate), 'yyyy-MM-dd') : '',
       });
     }
   }, [selectedStudent, editForm]);
@@ -612,7 +612,7 @@ export default function Students() {
                     <FormControl>
                       <DatePicker
                         selected={field.value ? new Date(field.value) : undefined}
-                        onSelect={(date) => field.onChange(date ? date.toISOString().split("T")[0] : "")}
+                        onSelect={(date) => field.onChange(date ? format(date, 'yyyy-MM-dd') : "")}
                         disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
                       />
                     </FormControl>
@@ -753,7 +753,7 @@ export default function Students() {
                     <FormControl>
                       <DatePicker
                         selected={field.value ? new Date(field.value) : undefined}
-                        onSelect={(date) => field.onChange(date ? date.toISOString().split("T")[0] : "")}
+                        onSelect={(date) => field.onChange(date ? format(date, 'yyyy-MM-dd') : "")}
                         disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
                       />
                     </FormControl>

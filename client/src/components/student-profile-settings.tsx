@@ -209,7 +209,7 @@ export function StudentProfileSettings({
         email: data.email,
         phone: data.phone || null,
         address: data.address || null,
-        dateOfBirth: data.dateOfBirth ? data.dateOfBirth.toISOString().split('T')[0] : null,
+        dateOfBirth: data.dateOfBirth ? format(data.dateOfBirth, 'yyyy-MM-dd') : null,
         guardianName: data.guardianName || null,
         guardianPhone: data.guardianPhone || null,
         profileImage: imagePreview
