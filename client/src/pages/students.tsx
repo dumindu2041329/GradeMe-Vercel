@@ -332,7 +332,7 @@ export default function Students() {
       email: "",
       class: "",
       password: "",
-      enrollmentDate: new Date().toISOString().split('T')[0],
+      enrollmentDate: "",
     },
   });
   
@@ -344,7 +344,7 @@ export default function Students() {
       email: "",
       class: "",
       password: "",
-      enrollmentDate: new Date().toISOString().split('T')[0],
+      enrollmentDate: "",
     },
   });
   

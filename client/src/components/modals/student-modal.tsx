@@ -40,7 +40,7 @@ export function StudentModal({ isOpen, onOpenChange, student, mode }: StudentMod
     name: student?.name || "",
     email: student?.email || "",
     class: student?.class || "",
-    enrollmentDate: student?.enrollmentDate ? new Date(student.enrollmentDate) : new Date(),
+    enrollmentDate: student?.enrollmentDate ? new Date(student.enrollmentDate) : undefined,
   };
 
   const form = useForm<StudentFormValues>({

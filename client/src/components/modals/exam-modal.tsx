@@ -58,7 +58,7 @@ export function ExamModal({ isOpen, onOpenChange, exam, mode }: ExamModalProps) 
   const defaultValues: Partial<ExamFormValues> = {
     name: exam?.name || "",
     subject: exam?.subject || "",
-    date: exam?.date ? new Date(exam.date) : new Date(),
+    date: exam?.date ? new Date(exam.date) : undefined,
     startTime: exam?.startTime ? new Date(exam.startTime) : null,
     duration: exam?.duration || 60,
     totalMarks: exam?.totalMarks || 100,
