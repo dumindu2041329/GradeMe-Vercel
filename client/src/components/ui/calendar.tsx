@@ -18,7 +18,7 @@ function Calendar({
 
   // Provide global sensible defaults so all calendars get year/month dropdowns
   // across the app unless explicitly overridden by the caller.
-  const captionLayout = props.captionLayout ?? ("dropdown-buttons" as const)
+  const captionLayout = props.captionLayout ?? ("dropdown" as const)
   const fromYear = props.fromYear ?? 1900
   const toYear = props.toYear ?? new Date().getFullYear() + 50
 
@@ -53,12 +53,13 @@ function Calendar({
         classNames={{
           months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
           month: "space-y-4",
-          caption: "flex flex-col items-center gap-2 pt-1 relative",
-          caption_label: "text-sm font-medium",
+          caption: "flex items-center justify-center gap-2 pt-1 relative",
+          caption_label: "sr-only",
           caption_dropdowns: "flex items-center gap-2",
           dropdown: "h-8 rounded-md border bg-background px-2 py-1 text-sm",
           dropdown_month: "capitalize",
           dropdown_year: "",
+          dropdown_icon: "hidden",
           nav: "space-x-1 flex items-center",
           nav_button: cn(
             buttonVariants({ variant: "outline" }),
