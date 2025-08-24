@@ -73,12 +73,19 @@ export function LoginDialog({ isAdmin = false, trigger }: LoginDialogProps) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(values)
+        body: JSON.stringify(values),
+        credentials: "include",
       });
 
       if (!response.ok) {
         setLoginSuccess(false);
-        throw new Error("Login failed");
+        // Try to surface server error message (e.g., access denied vs invalid credentials)
+        let message = "Login failed";
+        try {
+          const err = await response.json();
+          if (err?.message) message = err.message;
+        } catch {}
+        throw new Error(message);
       }
       
       const userData = await response.json();
@@ -124,7 +131,7 @@ export function LoginDialog({ isAdmin = false, trigger }: LoginDialogProps) {
       toast({
         variant: "destructive",
         title: "Login failed",
-        description: "Invalid email or password. Please try again."
+        description: error instanceof Error ? error.message : "Invalid email or password. Please try again.",
       });
     } finally {
       setIsLoading(false);
