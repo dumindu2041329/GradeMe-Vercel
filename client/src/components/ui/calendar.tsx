@@ -16,6 +16,12 @@ function Calendar({
 }: CalendarProps) {
   const [month, setMonth] = React.useState<Date>()
 
+  // Provide global sensible defaults so all calendars get year/month dropdowns
+  // across the app unless explicitly overridden by the caller.
+  const captionLayout = props.captionLayout ?? ("dropdown-buttons" as const)
+  const fromYear = props.fromYear ?? 1900
+  const toYear = props.toYear ?? new Date().getFullYear() + 50
+
   const handleTodayClick = () => {
     const today = new Date()
     setMonth(today)
@@ -41,6 +47,9 @@ function Calendar({
         onMonthChange={setMonth}
         showOutsideDays={showOutsideDays}
         className={cn("p-3", className)}
+        captionLayout={captionLayout}
+        fromYear={fromYear}
+        toYear={toYear}
         classNames={{
           months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
           month: "space-y-4",
