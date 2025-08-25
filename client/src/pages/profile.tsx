@@ -29,11 +29,8 @@ const profileFormSchema = z.object({
 
 const notificationFormSchema = z.object({
   emailNotifications: z.boolean().default(false),
-  smsNotifications: z.boolean().default(false),
   emailExamResults: z.boolean().default(false),
   emailUpcomingExams: z.boolean().default(false),
-  smsExamResults: z.boolean().default(false),
-  smsUpcomingExams: z.boolean().default(false),
 });
 
 const passwordFormSchema = z.object({
@@ -79,11 +76,8 @@ export default function ProfilePage() {
     resolver: zodResolver(notificationFormSchema),
     defaultValues: {
       emailNotifications: user?.emailNotifications || false,
-      smsNotifications: user?.smsNotifications || false,
       emailExamResults: user?.emailExamResults || false,
       emailUpcomingExams: user?.emailUpcomingExams || false,
-      smsExamResults: user?.smsExamResults || false,
-      smsUpcomingExams: user?.smsUpcomingExams || false,
     },
   });
   
@@ -108,11 +102,8 @@ export default function ProfilePage() {
       
       notificationForm.reset({
         emailNotifications: user.emailNotifications || false,
-        smsNotifications: user.smsNotifications || false,
         emailExamResults: user.emailExamResults || false,
         emailUpcomingExams: user.emailUpcomingExams || false,
-        smsExamResults: user.smsExamResults || false,
-        smsUpcomingExams: user.smsUpcomingExams || false,
       });
     }
   }, [user, profileForm, notificationForm]);
@@ -286,11 +277,8 @@ export default function ProfilePage() {
         setUser({
           ...user,
           emailNotifications: data.emailNotifications,
-          smsNotifications: data.smsNotifications,
           emailExamResults: data.emailExamResults,
           emailUpcomingExams: data.emailUpcomingExams,
-          smsExamResults: data.smsExamResults,
-          smsUpcomingExams: data.smsUpcomingExams
         });
       }
       
