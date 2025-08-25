@@ -5,11 +5,7 @@
   "functions": {
     "api/index.ts": {
       "runtime": "nodejs20.x",
-      "includeFiles": [
-        "dist/app.cjs",
-        "dist/public/**",
-        "shared/**"
-      ]
+      "includeFiles": "dist/app.cjs"
     }
   },
   "rewrites": [
