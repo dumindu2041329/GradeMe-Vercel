@@ -84,7 +84,8 @@ GradeMe is an exam management system that enables administrators and educators t
 │  │  ├─ hooks/
 │  │  ├─ assets/
 │  │  └─ index.css
-│  └─ favicon.svg
+│  └─ public/
+│     └─ favicon.svg
 ├─ server/                 # Express app (bundled for serverless or dev server)
 │  ├─ app.ts
 │  ├─ index.ts
@@ -142,7 +143,7 @@ npm start
 ```
 
 ## Deployment (Vercel)
-- Build Command: `npm run vercel-build`
+- Build Command: `npm run build:all`
 - Output Directory: `dist/public`
 - Serverless Function: `api/index.ts` (bundles `server/app.ts` into `dist/app.cjs`)
 - Environment Variables: ensure the same `.env` keys are set in your Vercel Project settings.
