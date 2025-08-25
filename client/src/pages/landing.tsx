@@ -188,7 +188,7 @@ export default function LandingPage() {
           {/* Content */}
           <div className="relative z-20 container mx-auto px-4 text-center">
             <div className="animate-fade-in-up">
-              <Card className="mt-16 mb-8 p-8 rounded-2xl backdrop-blur-md border shadow-2xl bg-white/5 border-white/10" glowing={true} glowingProps={{ variant: "white" }}>
+              <Card className="mt-16 mb-8 p-8 rounded-2xl backdrop-blur-md border shadow-2xl bg-white/5 border-white/10">
                 <h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r bg-clip-text text-transparent leading-tight from-cyan-400 via-blue-400 to-purple-400">
                   GradeMe
                 </h1>
@@ -441,19 +441,19 @@ export default function LandingPage() {
               
               {/* Additional CTA elements */}
               <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Card className="flex items-center justify-center space-x-3 p-4 rounded-xl border bg-white/5 border-white/10" glowing={true} glowingProps={{ variant: "white" }}>
+                <Card className="flex items-center justify-center space-x-3 p-4 rounded-xl border bg-white/5 border-white/10">
                   <CardContent className="p-0 flex items-center space-x-3">
                     <Lock className="h-5 w-5 text-green-400" />
                     <span className="font-medium text-white/80">Secure & Private</span>
                   </CardContent>
                 </Card>
-                <Card className="flex items-center justify-center space-x-3 p-4 rounded-xl border bg-white/5 border-white/10" glowing={true} glowingProps={{ variant: "white" }}>
+                <Card className="flex items-center justify-center space-x-3 p-4 rounded-xl border bg-white/5 border-white/10">
                   <CardContent className="p-0 flex items-center space-x-3">
                     <Award className="h-5 w-5 text-yellow-400" />
                     <span className="font-medium text-white/80">Award Winning</span>
                   </CardContent>
                 </Card>
-                <Card className="flex items-center justify-center space-x-3 p-4 rounded-xl border bg-white/5 border-white/10" glowing={true} glowingProps={{ variant: "white" }}>
+                <Card className="flex items-center justify-center space-x-3 p-4 rounded-xl border bg-white/5 border-white/10">
                   <CardContent className="p-0 flex items-center space-x-3">
                     <Users className="h-5 w-5 text-blue-400" />
                     <span className="font-medium text-white/80">24/7 Support</span>

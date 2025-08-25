@@ -171,7 +171,17 @@ export function LoginDialog({ isAdmin = false, trigger }: LoginDialogProps) {
             <span onClick={() => setOpen(true)}>{trigger}</span>
           )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md login-modal-dark" aria-describedby="login-description">
+      <DialogContent
+        className="sm:max-w-md login-modal-dark glowing-dialog"
+        aria-describedby="login-description"
+        // fallback for DialogContent that doesn't accept glowing props
+        style={{
+          boxShadow:
+            isAdmin
+              ? "0 0 24px 4px rgba(168,85,247,0.4), 0 0 0 2px rgba(168,85,247,0.5)"
+              : "0 0 24px 4px rgba(34,211,238,0.4), 0 0 0 2px rgba(34,211,238,0.5)",
+        }}
+      >
         <DialogHeader>
           <DialogTitle>{isAdmin ? "Admin Login" : "Student Login"}</DialogTitle>
           <DialogDescription id="login-description">
