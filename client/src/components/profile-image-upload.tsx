@@ -194,7 +194,7 @@ export function ProfileImageUpload({
   };
 
   return (
-    <Card className={`border shadow-sm bg-white dark:bg-[#030711] ${className}`}>
+    <Card className={`border shadow-sm bg-white dark:bg-[#030711] ${className}`} glowing={true}>
       <CardContent className="p-6">
         <div className="flex flex-col items-center gap-4">
           {(() => {

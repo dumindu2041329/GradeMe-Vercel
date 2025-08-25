@@ -177,7 +177,7 @@ export default function StudentDashboard() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <Card className="border-primary/10 dark:border-primary/20">
+            <Card className="border-primary/10 dark:border-primary/20" glowing={true}>
               <CardHeader className="p-4 sm:p-6">
                 <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
                   <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -239,7 +239,7 @@ export default function StudentDashboard() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <Card className="border-primary/10 dark:border-primary/20">
+            <Card className="border-primary/10 dark:border-primary/20" glowing={true}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <BarChart2 className="h-5 w-5" />
@@ -523,7 +523,7 @@ export default function StudentDashboard() {
         {/* Upcoming Exams with Enhanced Design */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           <div className="lg:col-span-2">
-            <Card className="border-primary/10 dark:border-primary/20">
+            <Card className="border-primary/10 dark:border-primary/20" glowing={true}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Calendar className="h-5 w-5" />
@@ -624,7 +624,7 @@ export default function StudentDashboard() {
           </div>
 
           {/* Personalized Recommendations */}
-          <Card className="border-primary/10 dark:border-primary/20">
+          <Card className="border-primary/10 dark:border-primary/20" glowing={true}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Target className="h-5 w-5" />
@@ -716,7 +716,7 @@ export default function StudentDashboard() {
         </div>
 
         {/* Exam History */}
-        <Card className="border-primary/10 dark:border-primary/20">
+        <Card className="border-primary/10 dark:border-primary/20" glowing={true}>
           <CardHeader>
             <CardTitle>Exam History</CardTitle>
           </CardHeader>

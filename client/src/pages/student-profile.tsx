@@ -531,7 +531,7 @@ export default function StudentProfile() {
               
               {/* Personal Information Tab */}
               <TabsContent value="personal" className="space-y-6">
-                <Card className="border shadow-sm">
+                <Card className="border shadow-sm" glowing={true}>
                   <CardContent className="p-4 sm:p-6">
                     <div className="mb-6">
                       <h3 className="text-xl font-semibold mb-2">Personal Information</h3>
@@ -848,7 +848,7 @@ export default function StudentProfile() {
 
               {/* Notification Settings Tab */}
               <TabsContent value="notifications" className="space-y-6">
-                <Card className="border shadow-sm">
+                <Card className="border shadow-sm" glowing={true}>
                   <CardContent className="p-4 sm:p-6">
                     <div className="mb-6">
                       <h3 className="text-xl font-semibold mb-2">Notification Settings</h3>
@@ -920,7 +920,7 @@ export default function StudentProfile() {
 
               {/* Security Tab */}
               <TabsContent value="security" className="space-y-6">
-                <Card className="border shadow-sm">
+                <Card className="border shadow-sm" glowing={true}>
                   <CardContent className="p-4 sm:p-6">
                     <div className="mb-6">
                       <h3 className="text-xl font-semibold mb-2">Change Password</h3>

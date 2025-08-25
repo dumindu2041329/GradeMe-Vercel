@@ -497,7 +497,7 @@ export default function ProfilePage() {
           
           <TabsContent value="notifications" className="space-y-6">
             {/* Notification Settings Form */}
-            <Card className="border shadow-sm mb-6">
+            <Card className="border shadow-sm mb-6" glowing={true}>
               <CardContent className="p-6" aria-describedby="notification-settings-desc">
                 <h3 className="text-lg font-medium mb-2">
                   <span className="inline-flex items-center">
@@ -544,7 +544,7 @@ export default function ProfilePage() {
             </Card>
             
             {/* Password Form */}
-            <Card className="border shadow-sm">
+            <Card className="border shadow-sm" glowing={true}>
               <CardContent className="p-6" aria-describedby="password-settings-desc">
                 <h3 className="text-lg font-medium mb-2">
                   <span className="inline-flex items-center">
