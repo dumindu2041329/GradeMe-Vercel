@@ -303,7 +303,7 @@ export default function LandingPage() {
                   <Card 
                     className="h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-2 bg-white/5 backdrop-blur-sm border-white/10"
                     glowing={true}
-                    glowingProps={{ variant: "white", proximity: 60, spread: 30, borderWidth: 2 }}
+                    glowingProps={{ variant: "white" }}
                   >
                     <CardContent className="p-6 text-center">
                       <div className="mb-4 flex justify-center">

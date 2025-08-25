@@ -20,23 +20,31 @@ interface GlowingEffectProps {
 const GlowingEffect = memo(
   ({
     blur = 0,
-    inactiveZone = 0.7,
-    proximity = 0,
+    inactiveZone = 0.3,
+    proximity = 100,
     spread = 20,
     variant = "default",
     glow = false,
     className,
-    movementDuration = 2,
+    movementDuration = 0.3,
     borderWidth = 1,
-    disabled = true,
+    disabled = false,
   }: GlowingEffectProps) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const lastPosition = useRef({ x: 0, y: 0 });
     const animationFrameRef = useRef<number>(0);
+    const deactivateTimeoutRef = useRef<number>(0);
+    const isActiveRef = useRef(false);
 
     const handleMove = useCallback(
       (e?: MouseEvent | { x: number; y: number }) => {
         if (!containerRef.current) return;
+
+        // Clear any existing deactivate timeout
+        if (deactivateTimeoutRef.current) {
+          clearTimeout(deactivateTimeoutRef.current);
+          deactivateTimeoutRef.current = 0;
+        }
 
         if (animationFrameRef.current) {
           cancelAnimationFrame(animationFrameRef.current);
@@ -61,38 +69,48 @@ const GlowingEffect = memo(
           );
           const inactiveRadius = 0.5 * Math.min(width, height) * inactiveZone;
 
-          if (distanceFromCenter < inactiveRadius) {
-            element.style.setProperty("--active", "0");
-            return;
-          }
-
+          // Check if mouse is within proximity
           const isActive =
             mouseX > left - proximity &&
-            mouseX < left + proximity &&
+            mouseX < left + width + proximity &&
             mouseY > top - proximity &&
             mouseY < top + height + proximity;
 
-          element.style.setProperty("--active", isActive ? "1" : "0");
+          // Only apply inactive zone if we're not already active and within proximity
+          if (distanceFromCenter < inactiveRadius && !isActiveRef.current && isActive) {
+            return; // Don't activate if too close to center
+          }
 
-          if (!isActive) return;
+          if (isActive) {
+            isActiveRef.current = true;
+            element.style.setProperty("--active", "1");
 
-          const currentAngle =
-            parseFloat(element.style.getPropertyValue("--start")) || 0;
-          let targetAngle =
-            (180 * Math.atan2(mouseY - center[1], mouseX - center[0])) /
-              Math.PI +
-            90;
+            const currentAngle =
+              parseFloat(element.style.getPropertyValue("--start")) || 0;
+            let targetAngle =
+              (180 * Math.atan2(mouseY - center[1], mouseX - center[0])) /
+                Math.PI +
+              90;
 
-          const angleDiff = ((targetAngle - currentAngle + 180) % 360) - 180;
-          const newAngle = currentAngle + angleDiff;
+            const angleDiff = ((targetAngle - currentAngle + 180) % 360) - 180;
+            const newAngle = currentAngle + angleDiff;
 
-          animate(currentAngle, newAngle, {
-            duration: movementDuration,
-            ease: [0.16, 1, 0.3, 1],
-            onUpdate: (value) => {
-              element.style.setProperty("--start", String(value));
-            },
-          });
+            animate(currentAngle, newAngle, {
+              duration: movementDuration,
+              ease: [0.16, 1, 0.3, 1],
+              onUpdate: (value) => {
+                element.style.setProperty("--start", String(value));
+              },
+            });
+          } else if (isActiveRef.current) {
+            // Add a small delay before deactivating to prevent flickering
+            deactivateTimeoutRef.current = window.setTimeout(() => {
+              if (element) {
+                element.style.setProperty("--active", "0");
+                isActiveRef.current = false;
+              }
+            }, 100);
+          }
         });
       },
       [inactiveZone, proximity, movementDuration]
@@ -112,6 +130,9 @@ const GlowingEffect = memo(
       return () => {
         if (animationFrameRef.current) {
           cancelAnimationFrame(animationFrameRef.current);
+        }
+        if (deactivateTimeoutRef.current) {
+          clearTimeout(deactivateTimeoutRef.current);
         }
         window.removeEventListener("scroll", handleScroll);
         document.body.removeEventListener("pointermove", handlePointerMove);

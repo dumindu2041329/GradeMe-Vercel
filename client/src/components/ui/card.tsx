@@ -29,9 +29,6 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     >
       {glowing && (
         <GlowingEffect
-          disabled={false}
-          proximity={100}
-          spread={60}
           {...glowingProps}
         />
       )}

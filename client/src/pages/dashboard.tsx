@@ -85,13 +85,13 @@ export default function Dashboard() {
               icon={Users}
               color="blue"
               glowing={true}
-              glowingProps={{ variant: "default", proximity: 80, spread: 50 }}
             />
             <StatCard
               title="Active Exams"
               value={statistics?.activeExams || 0}
               icon={BookOpen}
               color="green"
+              glowing={true}
             />
             <StatCard
               title="Completed Exams"
@@ -99,13 +99,13 @@ export default function Dashboard() {
               icon={CheckCircle}
               color="purple"
               glowing={true}
-              glowingProps={{ variant: "default", proximity: 80, spread: 50 }}
             />
             <StatCard
               title="Upcoming Exams"
               value={statistics?.upcomingExams || 0}
               icon={Calendar}
               color="yellow"
+              glowing={true}
             />
           </>
         )}
@@ -118,7 +118,6 @@ export default function Dashboard() {
       <Card 
         className="shadow"
         glowing={true}
-        glowingProps={{ variant: "default", proximity: 120, spread: 40 }}
       >
         <CardHeader className="pb-2 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
           <CardTitle className="text-lg font-semibold">Recent Exams</CardTitle>

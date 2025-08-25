@@ -88,7 +88,6 @@ export default function StudentDashboard() {
           <Card 
             className="border-primary/10 dark:border-primary/20 relative overflow-hidden"
             glowing={true}
-            glowingProps={{ variant: "default", proximity: 70, spread: 45 }}
           >
             <div className="absolute top-0 left-0 w-2 h-full bg-blue-500"></div>
             <CardHeader className="pb-2">
@@ -108,7 +107,6 @@ export default function StudentDashboard() {
           <Card 
             className="border-primary/10 dark:border-primary/20 relative overflow-hidden"
             glowing={true}
-            glowingProps={{ variant: "default", proximity: 70, spread: 45 }}
           >
             <div className="absolute top-0 left-0 w-2 h-full bg-purple-500"></div>
             <CardHeader className="pb-2">
