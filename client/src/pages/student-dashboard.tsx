@@ -85,7 +85,11 @@ export default function StudentDashboard() {
         
         {/* Enhanced Stats cards with progress indicators */}
         <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
-          <Card className="border-primary/10 dark:border-primary/20 relative overflow-hidden">
+          <Card 
+            className="border-primary/10 dark:border-primary/20 relative overflow-hidden"
+            glowing={true}
+            glowingProps={{ variant: "default", proximity: 70, spread: 45 }}
+          >
             <div className="absolute top-0 left-0 w-2 h-full bg-blue-500"></div>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">Total Exams</CardTitle>
@@ -101,7 +105,11 @@ export default function StudentDashboard() {
             </CardContent>
           </Card>
           
-          <Card className="border-primary/10 dark:border-primary/20 relative overflow-hidden">
+          <Card 
+            className="border-primary/10 dark:border-primary/20 relative overflow-hidden"
+            glowing={true}
+            glowingProps={{ variant: "default", proximity: 70, spread: 45 }}
+          >
             <div className="absolute top-0 left-0 w-2 h-full bg-purple-500"></div>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">Average Score</CardTitle>

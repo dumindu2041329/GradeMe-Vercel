@@ -84,6 +84,8 @@ export default function Dashboard() {
               value={statistics?.totalStudents || 0}
               icon={Users}
               color="blue"
+              glowing={true}
+              glowingProps={{ variant: "default", proximity: 80, spread: 50 }}
             />
             <StatCard
               title="Active Exams"
@@ -96,6 +98,8 @@ export default function Dashboard() {
               value={statistics?.completedExams || 0}
               icon={CheckCircle}
               color="purple"
+              glowing={true}
+              glowingProps={{ variant: "default", proximity: 80, spread: 50 }}
             />
             <StatCard
               title="Upcoming Exams"
@@ -111,7 +115,11 @@ export default function Dashboard() {
         <SpeedTestWidget />
       </div>
 
-      <Card className="shadow">
+      <Card 
+        className="shadow"
+        glowing={true}
+        glowingProps={{ variant: "default", proximity: 120, spread: 40 }}
+      >
         <CardHeader className="pb-2 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
           <CardTitle className="text-lg font-semibold">Recent Exams</CardTitle>
           <Button 

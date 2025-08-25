@@ -300,7 +300,11 @@ export default function LandingPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {features.map((feature, index) => (
                 <div key={index} className="group">
-                  <Card className="h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-2 bg-white/5 backdrop-blur-sm border-white/10">
+                  <Card 
+                    className="h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-2 bg-white/5 backdrop-blur-sm border-white/10"
+                    glowing={true}
+                    glowingProps={{ variant: "white", proximity: 60, spread: 30, borderWidth: 2 }}
+                  >
                     <CardContent className="p-6 text-center">
                       <div className="mb-4 flex justify-center">
                         <div className="p-3 rounded-full bg-gradient-to-br from-cyan-400/20 to-blue-600/20 group-hover:from-cyan-400/30 group-hover:to-blue-600/30 transition-all duration-300">

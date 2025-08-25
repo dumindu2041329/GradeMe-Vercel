@@ -8,6 +8,16 @@ interface StatCardProps {
   icon: LucideIcon;
   color: string;
   className?: string;
+  glowing?: boolean;
+  glowingProps?: {
+    blur?: number;
+    inactiveZone?: number;
+    proximity?: number;
+    spread?: number;
+    variant?: "default" | "white";
+    movementDuration?: number;
+    borderWidth?: number;
+  };
 }
 
 export function StatCard({
@@ -16,9 +26,15 @@ export function StatCard({
   icon: Icon,
   color,
   className,
+  glowing = false,
+  glowingProps,
 }: StatCardProps) {
   return (
-    <Card className={cn("border shadow", className)}>
+    <Card 
+      className={cn("border shadow", className)}
+      glowing={glowing}
+      glowingProps={glowingProps}
+    >
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
           <div>
