@@ -786,7 +786,10 @@ export default function PaperCreationPage() {
                       <Button onClick={() => {
                         setEditingQuestion(null);
                         questionForm.reset();
-                      }} className="whitespace-nowrap w-full sm:w-auto">
+                      }} 
+                      className="whitespace-nowrap w-full sm:w-auto"
+                      glowing={true}
+                    >
                         <PlusCircle className="h-4 w-4 mr-2" />
                         Add Question
                       </Button>

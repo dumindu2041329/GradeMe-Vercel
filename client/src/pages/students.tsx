@@ -376,6 +376,7 @@ export default function Students() {
           <Button 
             onClick={() => setIsCreateModalOpen(true)}
             className="bg-primary hover:bg-primary/90"
+            glowing={true}
           >
             <PlusCircle className="mr-2 h-4 w-4" />
             Add Student
@@ -389,6 +390,7 @@ export default function Students() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10 w-full"
+            glowing={true}
           />
         </div>
 
@@ -500,7 +502,10 @@ export default function Students() {
       
       {/* Create Student Modal */}
       <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent 
+          className="sm:max-w-md"
+          glowing={true}
+        >
           <DialogHeader>
             <DialogTitle>Add Student</DialogTitle>
             <DialogDescription>

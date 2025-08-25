@@ -119,7 +119,11 @@ export default function StudentDashboard() {
                 </div>
                 <span className="text-2xl sm:text-3xl font-bold">{dashboardData?.averageScore ? dashboardData.averageScore.toFixed(1) : '0'}%</span>
               </div>
-              <Progress value={dashboardData?.averageScore || 0} className="h-2" />
+              <Progress 
+                value={dashboardData?.averageScore || 0} 
+                className="h-2"
+                glowing={true}
+              />
             </CardContent>
           </Card>
           

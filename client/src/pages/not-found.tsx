@@ -38,6 +38,8 @@ export default function NotFound() {
               size="lg"
               className="px-6 bg-gradient-to-r from-cyan-500 to-blue-600 text-white border-0 hover:from-cyan-400 hover:to-blue-500"
               onClick={() => navigate("/")}
+              glowing={true}
+              glowingProps={{ variant: "white" }}
             >
               <Home className="mr-2 h-5 w-5" />
               Go Home
@@ -47,6 +49,8 @@ export default function NotFound() {
               variant="outline"
               className="px-6 border-white/30 text-white bg-white/10 hover:bg-white/20"
               onClick={() => window.history.back()}
+              glowing={true}
+              glowingProps={{ variant: "white" }}
             >
               <ArrowLeft className="mr-2 h-5 w-5" />
               Go Back

@@ -205,7 +205,12 @@ export default function LandingPage() {
                   <LoginDialog 
                     isAdmin={false}
                     trigger={
-                      <Button size="lg" className="group px-8 py-4 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 bg-gradient-to-r text-white border-0 rounded-xl transform hover:scale-105 from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+                      <Button 
+                        size="lg" 
+                        className="group px-8 py-4 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 bg-gradient-to-r text-white border-0 rounded-xl transform hover:scale-105 from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                        glowing={true}
+                        glowingProps={{ variant: "white", proximity: 60, spread: 40 }}
+                      >
                         <GraduationCap className="mr-3 h-6 w-6 group-hover:rotate-12 transition-transform duration-300" />
                         Student Portal
                         <div className="absolute inset-0 rounded-xl bg-gradient-to-r opacity-0 group-hover:opacity-20 transition-opacity duration-300 from-cyan-400 to-blue-400"></div>
@@ -215,7 +220,13 @@ export default function LandingPage() {
                   <LoginDialog 
                     isAdmin={true}
                     trigger={
-                      <Button size="lg" variant="outline" className="group px-8 py-4 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 border-2 backdrop-blur-sm rounded-xl transform hover:scale-105 border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 text-white">
+                      <Button 
+                        size="lg" 
+                        variant="outline" 
+                        className="group px-8 py-4 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-500 border-2 backdrop-blur-sm rounded-xl transform hover:scale-105 border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 text-white"
+                        glowing={true}
+                        glowingProps={{ variant: "white", proximity: 60, spread: 40 }}
+                      >
                         <Users className="mr-3 h-6 w-6 group-hover:rotate-12 transition-transform duration-300" />
                         Admin Dashboard
                         <div className="absolute inset-0 rounded-xl bg-gradient-to-r opacity-0 group-hover:opacity-10 transition-opacity duration-300 from-purple-400 to-pink-400"></div>

@@ -359,7 +359,11 @@ export default function StudentExamPage() {
             <span className="text-sm text-muted-foreground">Progress: {Object.keys(answers).length}/{questions.length} questions answered</span>
             <span className="text-sm font-medium">{currentProgress}%</span>
           </div>
-          <Progress value={currentProgress} className="h-2" />
+          <Progress 
+            value={currentProgress} 
+            className="h-2"
+            glowing={true}
+          />
         </div>
         
         {/* Questions */}
@@ -449,7 +453,10 @@ export default function StudentExamPage() {
       
       {/* Exam Results Dialog */}
       <Dialog open={showResultDialog} onOpenChange={setShowResultDialog}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent 
+          className="sm:max-w-md"
+          glowing={true}
+        >
           <DialogHeader>
             <DialogTitle>Exam Results</DialogTitle>
           </DialogHeader>
@@ -461,7 +468,11 @@ export default function StudentExamPage() {
                   <h3 className="text-2xl font-bold text-primary mb-2">
                     {examResult.score}/{examResult.attemptedMarks}
                   </h3>
-                  <Progress value={examResult.percentage} className="h-2 mb-2" />
+                  <Progress 
+                    value={examResult.percentage} 
+                    className="h-2 mb-2"
+                    glowing={true}
+                  />
                   <p className="text-sm text-muted-foreground">
                     Your score: {examResult.percentage}% (based on questions answered)
                   </p>

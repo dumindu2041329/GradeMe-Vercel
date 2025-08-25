@@ -99,6 +99,7 @@ export default function StudentExams() {
                       onClick={() => navigate(`/student/exam/${exam.id}`)}
                       className={exam.status !== "active" ? "bg-muted text-muted-foreground" : ""}
                       disabled={exam.status !== "active"}
+                      glowing={exam.status === "active"}
                     >
                       {exam.status === "active" ? "Start Exam" : "Not Available Yet"}
                       {exam.status === "active" && <ArrowRight className="ml-2 h-4 w-4" />}
