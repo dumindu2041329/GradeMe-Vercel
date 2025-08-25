@@ -1,40 +1,20 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
-import { GlowingEffect, type GlowingEffectProps } from "@/components/ui/glowing-effect"
 
-type CardProps = React.HTMLAttributes<HTMLDivElement> & {
-  glow?: boolean
-  glowProps?: Partial<GlowingEffectProps>
-}
-
-const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, glow = true, glowProps, children, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn(
-        "relative rounded-lg border bg-card text-card-foreground shadow-sm",
-        className
-      )}
-      {...props}
-    >
-      {children}
-      {glow && (
-        <GlowingEffect
-          {...{
-            blur: 8,
-            proximity: 40,
-            spread: 22,
-            glow: true,
-            disabled: false,
-            ...glowProps,
-          }}
-          className="pointer-events-none"
-        />
-      )}
-    </div>
-  )
-)
+const Card = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn(
+      "rounded-lg border bg-card text-card-foreground shadow-sm",
+      className
+    )}
+    {...props}
+  />
+))
 Card.displayName = "Card"
 
 const CardHeader = React.forwardRef<
