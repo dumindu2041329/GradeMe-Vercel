@@ -106,49 +106,6 @@
 }
 
 @layer components {
-  /* Neon rotating gradient border utility */
-  .neon-rotate-border {
-    position: relative;
-    isolation: isolate;
-  }
-
-  .neon-rotate-border::before,
-  .neon-rotate-border::after {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    background: conic-gradient(
-      from 0deg,
-      hsl(252 95% 70%),
-      hsl(217 91% 60%),
-      hsl(262 83% 58%),
-      hsl(45 100% 60%),
-      hsl(252 95% 70%)
-    );
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 200ms ease;
-    filter: blur(0px);
-  }
-
-  .neon-rotate-border::after {
-    filter: blur(10px);
-    opacity: 0;
-    transition: opacity 200ms ease;
-  }
-
-  .neon-rotate-border:hover::before,
-  .neon-rotate-border:hover::after,
-  .neon-rotate-border:focus-within::before,
-  .neon-rotate-border:focus-within::after {
-    opacity: 0.9;
-    animation: neon-rotate 4s linear infinite;
-  }
-
-  @keyframes neon-rotate {
-    to { transform: rotate(360deg); }
-  }
   /* Hide scrollbar styles */
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
@@ -404,6 +361,76 @@
     transition: opacity 80ms ease-out;
   }
   
+  /* Rotating neon gradient border utility (border only) */
+  .neon-rotate-border {
+    position: relative;
+    border-radius: var(--radius);
+    isolation: isolate;
+  }
+
+  .neon-rotate-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    /* Only draw the border by combining a solid inner background with a conic gradient border */
+    background:
+      linear-gradient(hsl(var(--background)), hsl(var(--background))) padding-box,
+      conic-gradient(
+        from 0deg,
+        hsl(var(--primary)),
+        hsl(var(--accent)),
+        hsl(var(--chart-2)),
+        hsl(var(--primary))
+      ) border-box;
+    border: 2px solid transparent;
+    opacity: 0;
+    transition: opacity 200ms ease;
+    pointer-events: none;
+  }
+
+  .neon-rotate-border:hover::before {
+    opacity: 1;
+    animation: neon-rotate 4s linear infinite;
+  }
+
+  /* Apply the same effect to all form elements globally on hover */
+  form {
+    position: relative;
+    border-radius: var(--radius);
+  }
+
+  form:hover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+      linear-gradient(hsl(var(--background)), hsl(var(--background))) padding-box,
+      conic-gradient(
+        from 0deg,
+        hsl(var(--primary)),
+        hsl(var(--accent)),
+        hsl(var(--chart-2)),
+        hsl(var(--primary))
+      ) border-box;
+    border: 2px solid transparent;
+    animation: neon-rotate 4s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes neon-rotate {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .neon-rotate-border:hover::before,
+    form:hover::before {
+      animation: none;
+    }
+  }
   .transition-wrapper.active {
     opacity: 1;
   }
@@ -455,56 +482,5 @@
     100% {
       transform: translateX(100%);
     }
-  }
-
-  /* Global neon rotating border for all forms */
-  form {
-    position: relative;
-    border-radius: var(--radius);
-    isolation: isolate;
-  }
-
-  form::before,
-  form::after {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    background: conic-gradient(
-      from 0deg,
-      hsl(252 95% 70%),
-      hsl(217 91% 60%),
-      hsl(262 83% 58%),
-      hsl(45 100% 60%),
-      hsl(252 95% 70%)
-    );
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 200ms ease;
-  }
-
-  form::after {
-    filter: blur(10px);
-  }
-
-  form:hover::before,
-  form:hover::after,
-  form:focus-within::before,
-  form:focus-within::after {
-    opacity: 0.9;
-    animation: neon-rotate 4s linear infinite;
-  }
-}
-
-@layer utilities {
-  /* Apply neon border to all forms on hover/focus for consistent UX */
-  form.neon {
-    border-radius: var(--radius);
-  }
-  form.neon {
-    position: relative;
-  }
-  form.neon {
-    /* rely on .neon-rotate-border through class composition */
   }
 }
