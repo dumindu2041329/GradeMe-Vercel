@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { GraduationCap, BookOpen, Award, Users, Lock, ChevronUp } from "lucide-react";
 import { LoginDialog } from "@/components/login-dialog";
+import GlowCard from "@/components/glow-card/GlowCard";
 import { ThreeScene } from "@/components/three-scene";
 import { useQuery } from "@tanstack/react-query";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -188,7 +189,7 @@ export default function LandingPage() {
           {/* Content */}
           <div className="relative z-20 container mx-auto px-4 text-center">
             <div className="animate-fade-in-up">
-              <div className="mt-16 mb-8 p-8 rounded-2xl backdrop-blur-md border shadow-2xl bg-white/5 border-white/10">
+              <GlowCard>
                 <h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r bg-clip-text text-transparent leading-tight from-cyan-400 via-blue-400 to-purple-400">
                   GradeMe
                 </h1>
@@ -199,8 +200,7 @@ export default function LandingPage() {
                   Experience the future of education with our advanced examination management system, 
                   powered by cutting-edge technology and intuitive design.
                 </p>
-                
-                {/* CTA buttons */}
+
                 <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-300">
                   <LoginDialog 
                     isAdmin={false}
@@ -223,7 +223,7 @@ export default function LandingPage() {
                     }
                   />
                 </div>
-              </div>
+              </GlowCard>
               
               {/* Feature highlights */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 mb-16">
