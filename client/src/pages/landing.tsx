@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { GlowingEffect } from "@/components/ui/glowing-effect";
 import { GraduationCap, BookOpen, Award, Users, Lock, ChevronUp } from "lucide-react";
 import { LoginDialog } from "@/components/login-dialog";
 import { ThreeScene } from "@/components/three-scene";
@@ -188,7 +189,13 @@ export default function LandingPage() {
           {/* Content */}
           <div className="relative z-20 container mx-auto px-4 text-center">
             <div className="animate-fade-in-up">
-              <div className="mt-16 mb-8 p-8 rounded-2xl backdrop-blur-md border shadow-2xl bg-white/5 border-white/10">
+              <div className="relative mt-16 mb-8 p-8 rounded-2xl backdrop-blur-md border shadow-2xl bg-white/5 border-white/10">
+                <GlowingEffect 
+                  borderWidth={4}
+                  spread={40}
+                  proximity={120}
+                  movementDuration={0.4}
+                />
                 <h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r bg-clip-text text-transparent leading-tight from-cyan-400 via-blue-400 to-purple-400">
                   GradeMe
                 </h1>
