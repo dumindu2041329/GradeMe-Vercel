@@ -22,12 +22,12 @@ const GlowingEffect = memo(
     blur = 0,
     inactiveZone = 0.3,
     proximity = 100,
-    spread = 20,
+    spread = 35,
     variant = "default",
     glow = false,
     className,
     movementDuration = 0.3,
-    borderWidth = 1,
+    borderWidth = 3,
     disabled = false,
   }: GlowingEffectProps) => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -143,11 +143,14 @@ const GlowingEffect = memo(
       <>
         <div
           className={cn(
-            "pointer-events-none absolute -inset-px hidden rounded-[inherit] border opacity-0 transition-opacity",
+            "pointer-events-none absolute hidden rounded-[inherit] border-2 opacity-0 transition-opacity",
             glow && "opacity-100",
             variant === "white" && "border-white",
             disabled && "!block"
           )}
+          style={{
+            inset: `-${borderWidth}px`
+          }}
         />
         <div
           ref={containerRef}
@@ -161,15 +164,17 @@ const GlowingEffect = memo(
               "--repeating-conic-gradient-times": "5",
               "--gradient":
                 variant === "white"
-                  ? `repeating-conic-gradient(
+                  ? `radial-gradient(circle, #ffffff 15%, #ffffff80 30%, #ffffff00 40%),
+                  repeating-conic-gradient(
                   from 236.84deg at 50% 50%,
-                  var(--black),
-                  var(--black) calc(25% / var(--repeating-conic-gradient-times))
+                  #ffffff,
+                  #ffffff80 calc(25% / var(--repeating-conic-gradient-times)),
+                  #ffffff calc(50% / var(--repeating-conic-gradient-times))
                 )`
-                  : `radial-gradient(circle, #dd7bbb 10%, #dd7bbb00 20%),
-                radial-gradient(circle at 40% 40%, #d79f1e 5%, #d79f1e00 15%),
-                radial-gradient(circle at 60% 60%, #5a922c 10%, #5a922c00 20%), 
-                radial-gradient(circle at 40% 60%, #4c7894 10%, #4c789400 20%),
+                  : `radial-gradient(circle, #dd7bbb 15%, #dd7bbb80 30%, #dd7bbb00 40%),
+                radial-gradient(circle at 40% 40%, #d79f1e 8%, #d79f1e80 25%, #d79f1e00 35%),
+                radial-gradient(circle at 60% 60%, #5a922c 15%, #5a922c80 30%, #5a922c00 40%), 
+                radial-gradient(circle at 40% 60%, #4c7894 15%, #4c789480 30%, #4c789400 40%),
                 repeating-conic-gradient(
                   from 236.84deg at 50% 50%,
                   #dd7bbb 0%,
@@ -192,7 +197,7 @@ const GlowingEffect = memo(
             className={cn(
               "glow",
               "rounded-[inherit]",
-              'after:content-[""] after:rounded-[inherit] after:absolute after:inset-[calc(-1*var(--glowingeffect-border-width))]',
+              'after:content-[""] after:rounded-[inherit] after:absolute after:inset-[calc(-1.5*var(--glowingeffect-border-width))]',
               "after:[border:var(--glowingeffect-border-width)_solid_transparent]",
               "after:[background:var(--gradient)] after:[background-attachment:fixed]",
               "after:opacity-[var(--active)] after:transition-opacity after:duration-300",
