@@ -4,12 +4,12 @@ import { memo, useCallback, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { animate } from "motion/react";
 
-interface GlowingEffectProps {
+export interface GlowingEffectProps {
   blur?: number;
   inactiveZone?: number;
   proximity?: number;
   spread?: number;
-  variant?: "default" | "white";
+  variant?: "default" | "white" | "theme";
   glow?: boolean;
   className?: string;
   disabled?: boolean;
@@ -141,8 +141,21 @@ const GlowingEffect = memo(
                 variant === "white"
                   ? `repeating-conic-gradient(
                   from 236.84deg at 50% 50%,
-                  var(--black),
-                  var(--black) calc(25% / var(--repeating-conic-gradient-times))
+                  #000000,
+                  #000000 calc(25% / var(--repeating-conic-gradient-times))
+                )`
+                  : variant === "theme"
+                  ? `radial-gradient(circle, hsl(var(--primary)) 12%, #0000 22%),
+                radial-gradient(circle at 40% 40%, hsl(var(--accent)) 6%, #0000 16%),
+                radial-gradient(circle at 60% 60%, hsl(var(--chart-2)) 10%, #0000 20%), 
+                radial-gradient(circle at 40% 60%, hsl(var(--chart-3)) 10%, #0000 20%),
+                repeating-conic-gradient(
+                  from 236.84deg at 50% 50%,
+                  hsl(var(--primary)) 0%,
+                  hsl(var(--accent)) calc(25% / var(--repeating-conic-gradient-times)),
+                  hsl(var(--chart-2)) calc(50% / var(--repeating-conic-gradient-times)), 
+                  hsl(var(--chart-3)) calc(75% / var(--repeating-conic-gradient-times)),
+                  hsl(var(--primary)) calc(100% / var(--repeating-conic-gradient-times))
                 )`
                   : `radial-gradient(circle, #dd7bbb 10%, #dd7bbb00 20%),
                 radial-gradient(circle at 40% 40%, #d79f1e 5%, #d79f1e00 15%),

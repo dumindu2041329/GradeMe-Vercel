@@ -14,6 +14,7 @@ import {
 
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
+import { GlowingEffect } from "@/components/ui/glowing-effect"
 
 const Form = FormProvider
 
@@ -175,4 +176,23 @@ export {
   FormDescription,
   FormMessage,
   FormField,
+}
+
+export function FormFrame({ children, glow = false, className }: { children: React.ReactNode; glow?: boolean; className?: string }) {
+  return (
+    <div className={cn("relative rounded-lg border bg-card p-4 md:p-6", className)}>
+      {glow && (
+        <GlowingEffect
+          disabled={false}
+          glow
+          variant="theme"
+          proximity={56}
+          inactiveZone={0.02}
+          borderWidth={2}
+          spread={36}
+        />
+      )}
+      {children}
+    </div>
+  )
 }
