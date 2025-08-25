@@ -385,7 +385,10 @@ export default function ProfilePage() {
             />
             
             {/* User Info Card */}
-            <Card className="border shadow-sm">
+            <Card 
+              className="border shadow-sm"
+              glowing={true}
+            >
               <CardContent className="p-6">
                 <div className="flex flex-col items-center text-center gap-2">
                   <h3 className="text-xl font-semibold">{user?.name || 'No name available'}</h3>
@@ -424,7 +427,10 @@ export default function ProfilePage() {
             </Card>
             
             {/* Profile Form */}
-            <Card className="border shadow-sm">
+            <Card 
+              className="border shadow-sm"
+              glowing={true}
+            >
               <CardContent className="p-6" aria-describedby="profile-description">
                 <h3 className="text-lg font-medium mb-2">
                   <span className="inline-flex items-center">

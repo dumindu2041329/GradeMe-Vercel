@@ -972,7 +972,11 @@ export default function PaperCreationPage() {
             ) : (
               <div className="space-y-4">
                 {filteredQuestions.map((question, index) => (
-                  <Card key={question.id} className="border-l-4 border-l-blue-500">
+                  <Card 
+                    key={question.id} 
+                    className="border-l-4 border-l-blue-500"
+                    glowing={true}
+                  >
                     <CardContent className="pt-4 pb-4">
                       <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
                         <div className="flex-1 space-y-2 min-w-0">

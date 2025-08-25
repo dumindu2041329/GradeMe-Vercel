@@ -35,7 +35,7 @@ export default function StudentExams() {
         <h1 className="text-3xl font-bold mb-8">Available Exams</h1>
         
         {!exams || exams.length === 0 ? (
-          <Card>
+          <Card glowing={true}>
             <CardContent className="py-8">
               <div className="text-center">
                 <p className="text-muted-foreground mb-4">No exams available at the moment.</p>
@@ -48,7 +48,11 @@ export default function StudentExams() {
         ) : (
           <div className="grid grid-cols-1 gap-6">
             {exams.map((exam) => (
-              <Card key={exam.id} className="border-primary/10 dark:border-primary/20">
+              <Card 
+                key={exam.id} 
+                className="border-primary/10 dark:border-primary/20"
+                glowing={true}
+              >
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div>

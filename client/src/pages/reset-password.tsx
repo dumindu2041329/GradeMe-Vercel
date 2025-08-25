@@ -38,7 +38,11 @@ export function ResetPasswordPage() {
         <section className="relative z-10 min-h-screen flex items-center justify-center p-4 pt-20">
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-black/5 to-transparent pointer-events-none" />
           
-          <Card className="w-full max-w-md mx-auto bg-white/10 backdrop-blur-md border-white/20">
+          <Card 
+            className="w-full max-w-md mx-auto bg-white/10 backdrop-blur-md border-white/20"
+            glowing={true}
+            glowingProps={{ variant: "white" }}
+          >
             <CardHeader className="text-center">
               <div className="flex justify-center mb-4">
                 <div className="p-3 bg-red-500/20 rounded-full">

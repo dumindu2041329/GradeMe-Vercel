@@ -365,7 +365,11 @@ export default function StudentExamPage() {
         {/* Questions */}
         <div className="space-y-8">
           {questions.map((question, index) => (
-            <Card key={question.id} className="border-primary/10 dark:border-primary/20">
+            <Card 
+              key={question.id} 
+              className="border-primary/10 dark:border-primary/20"
+              glowing={true}
+            >
               <CardContent className="pt-6">
                 <div className="flex justify-between mb-4">
                   <h3 className="text-lg font-medium">Question {index + 1}</h3>

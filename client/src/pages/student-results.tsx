@@ -33,13 +33,16 @@ export default function StudentResults() {
         <h1 className="text-3xl font-bold mb-8">Exam Results</h1>
         
         {!results || results.length === 0 ? (
-          <Card>
+          <Card glowing={true}>
             <CardContent className="py-8">
               <p className="text-center text-muted-foreground">You haven't taken any exams yet.</p>
             </CardContent>
           </Card>
         ) : (
-          <Card className="border-primary/10 dark:border-primary/20">
+          <Card 
+            className="border-primary/10 dark:border-primary/20"
+            glowing={true}
+          >
             <CardHeader>
               <CardTitle>Your Results</CardTitle>
             </CardHeader>

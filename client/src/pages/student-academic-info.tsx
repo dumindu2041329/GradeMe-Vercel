@@ -123,7 +123,10 @@ export default function StudentAcademicInfo() {
             </Alert>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Card className="border-primary/10 dark:border-primary/20">
+              <Card 
+                className="border-primary/10 dark:border-primary/20"
+                glowing={true}
+              >
                 <CardHeader className="pb-2">
                   <CardTitle className="text-lg">Overall Average</CardTitle>
                   <CardDescription>Across all exams</CardDescription>
@@ -141,7 +144,10 @@ export default function StudentAcademicInfo() {
                 </CardContent>
               </Card>
               
-              <Card className="border-primary/10 dark:border-primary/20">
+              <Card 
+                className="border-primary/10 dark:border-primary/20"
+                glowing={true}
+              >
                 <CardHeader className="pb-2">
                   <CardTitle className="text-lg">Exams Completed</CardTitle>
                   <CardDescription>Your test participation</CardDescription>
@@ -162,7 +168,10 @@ export default function StudentAcademicInfo() {
                 </CardContent>
               </Card>
               
-              <Card className="border-primary/10 dark:border-primary/20">
+              <Card 
+                className="border-primary/10 dark:border-primary/20"
+                glowing={true}
+              >
                 <CardHeader className="pb-2">
                   <CardTitle className="text-lg">Best Performance</CardTitle>
                   <CardDescription>Your highest score</CardDescription>
@@ -189,7 +198,10 @@ export default function StudentAcademicInfo() {
           
           {/* Exam History Tab */}
           <TabsContent value="exams">
-            <Card className="border-primary/10 dark:border-primary/20">
+            <Card 
+              className="border-primary/10 dark:border-primary/20"
+              glowing={true}
+            >
               <CardHeader>
                 <CardTitle>Exam History</CardTitle>
                 <CardDescription>
@@ -273,7 +285,10 @@ export default function StudentAcademicInfo() {
           
           {/* Subject Analysis Tab */}
           <TabsContent value="subjects">
-            <Card className="border-primary/10 dark:border-primary/20">
+            <Card 
+              className="border-primary/10 dark:border-primary/20"
+              glowing={true}
+            >
               <CardHeader>
                 <CardTitle>Subject Performance</CardTitle>
                 <CardDescription>

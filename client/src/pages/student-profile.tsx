@@ -448,7 +448,10 @@ export default function StudentProfile() {
           
           {/* View Profile Tab */}
           <TabsContent value="view">
-            <Card className="border shadow-sm">
+            <Card 
+              className="border shadow-sm"
+              glowing={true}
+            >
               <CardContent className="pt-6">
                 <div className="flex flex-col md:flex-row gap-6">
                   <div className="flex flex-col items-center">

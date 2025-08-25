@@ -16,7 +16,11 @@ export default function NotFound() {
       <div className="absolute -bottom-40 -right-40 w-[28rem] h-[28rem] rounded-full bg-purple-500/20 blur-3xl" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.06),transparent_60%)]" />
 
-      <Card className="relative z-10 w-[min(92%,760px)] mx-auto border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl">
+      <Card 
+        className="relative z-10 w-[min(92%,760px)] mx-auto border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl"
+        glowing={true}
+        glowingProps={{ variant: "white" }}
+      >
         <CardContent className="p-8 md:p-12 text-center">
           <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/20">
             <AlertCircle className="h-8 w-8 text-red-400" />

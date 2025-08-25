@@ -190,7 +190,7 @@ export default function EmailManagementPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Test Email Section */}
-        <Card>
+        <Card glowing={true}>
           <CardHeader className="pb-4">
             <CardTitle className="flex items-center space-x-2">
               <TestTube className="h-5 w-5" />
@@ -253,7 +253,7 @@ export default function EmailManagementPage() {
         </Card>
 
         {/* Exam Reminder Section */}
-        <Card>
+        <Card glowing={true}>
           <CardHeader className="pb-4">
             <CardTitle className="flex items-center space-x-2">
               <Send className="h-5 w-5" />
@@ -363,7 +363,10 @@ export default function EmailManagementPage() {
       </div>
 
         {/* Email Statistics */}
-        <Card className="lg:col-span-2">
+        <Card 
+          className="lg:col-span-2"
+          glowing={true}
+        >
           <CardHeader className="pb-4">
             <CardTitle>Email Notification Statistics</CardTitle>
           </CardHeader>
