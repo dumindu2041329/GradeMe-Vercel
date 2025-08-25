@@ -154,24 +154,13 @@ export function LoginDialog({ isAdmin = false, trigger }: LoginDialogProps) {
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        {React.isValidElement(trigger)
-          ? React.cloneElement(trigger as React.ReactElement<any>, {
-              onClick: (e: any) => {
-                try {
-                  // Preserve any existing onClick on the trigger
-                  const originalOnClick = (trigger as any).props?.onClick;
-                  if (typeof originalOnClick === 'function') originalOnClick(e);
-                } finally {
-                  // Explicitly open the dialog to avoid composition issues
-                  setOpen(true);
-                }
-              },
-            })
-          : (
-            <span onClick={() => setOpen(true)}>{trigger}</span>
-          )}
+        {React.isValidElement(trigger) ? (
+          trigger
+        ) : (
+          <span role="button">{trigger}</span>
+        )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md login-modal-dark" aria-describedby="login-description">
+      <DialogContent glow={false} className="sm:max-w-md login-modal-dark" aria-describedby="login-description">
         <DialogHeader>
           <DialogTitle>{isAdmin ? "Admin Login" : "Student Login"}</DialogTitle>
           <DialogDescription id="login-description">
