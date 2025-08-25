@@ -454,6 +454,9 @@
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     animation: neon-rotate 6s linear infinite;
+    animation-play-state: paused;
+    opacity: 0;
+    transition: opacity 200ms ease-out;
     pointer-events: none;
   }
 
@@ -473,10 +476,25 @@
       hsl(221 83% 53% / 0.6)
     );
     filter: blur(20px);
-    opacity: 0.35;
+    opacity: 0;
+    transition: opacity 200ms ease-out;
     animation: neon-rotate 6s linear infinite;
+    animation-play-state: paused;
     z-index: -1;
     pointer-events: none;
+  }
+
+  /* Show only on hover or focus-within */
+  .neon-border:hover::before,
+  .neon-border:focus-within::before {
+    opacity: 1;
+    animation-play-state: running;
+  }
+
+  .neon-border:hover::after,
+  .neon-border:focus-within::after {
+    opacity: 0.35;
+    animation-play-state: running;
   }
 
   /* Apply neon border to all forms by default (disable with .no-neon) */
@@ -505,6 +523,15 @@
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     animation: neon-rotate 6s linear infinite;
+    animation-play-state: paused;
+    opacity: 0;
+    transition: opacity 200ms ease-out;
     pointer-events: none;
+  }
+
+  form:not(.no-neon):hover::before,
+  form:not(.no-neon):focus-within::before {
+    opacity: 1;
+    animation-play-state: running;
   }
 }
