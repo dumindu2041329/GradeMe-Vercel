@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { GlowingEffect } from "@/components/ui/glowing-effect";
 import { GraduationCap, BookOpen, Award, Users, Lock, ChevronUp } from "lucide-react";
 import { LoginDialog } from "@/components/login-dialog";
 import { ThreeScene } from "@/components/three-scene";
@@ -189,13 +188,7 @@ export default function LandingPage() {
           {/* Content */}
           <div className="relative z-20 container mx-auto px-4 text-center">
             <div className="animate-fade-in-up">
-              <div className="relative mt-16 mb-8 p-8 rounded-2xl backdrop-blur-md border shadow-2xl bg-white/5 border-white/10">
-                <GlowingEffect 
-                  borderWidth={4}
-                  spread={40}
-                  proximity={120}
-                  movementDuration={0.4}
-                />
+              <Card className="mt-16 mb-8 p-8 rounded-2xl backdrop-blur-md border shadow-2xl bg-white/5 border-white/10" glowing={true} glowingProps={{ variant: "white" }}>
                 <h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r bg-clip-text text-transparent leading-tight from-cyan-400 via-blue-400 to-purple-400">
                   GradeMe
                 </h1>
@@ -237,50 +230,62 @@ export default function LandingPage() {
                     }
                   />
                 </div>
-              </div>
+              </Card>
               
               {/* Feature highlights */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 mb-16">
-                <div className="p-6 rounded-xl backdrop-blur-md border bg-white/5 border-white/10 text-center">
-                  <div className="flex justify-center">
-                    <BookOpen className="h-10 w-10 mb-4 text-cyan-400" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2 text-white">Smart Exams</h3>
-                  <p className="text-white/70">AI-powered examination system with real-time analytics</p>
-                </div>
-                <div className="p-6 rounded-xl backdrop-blur-md border bg-white/5 border-white/10 text-center">
-                  <div className="flex justify-center">
-                    <Award className="h-10 w-10 mb-4 text-yellow-400" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2 text-white">Performance Tracking</h3>
-                  <p className="text-white/70">Comprehensive analytics and progress monitoring</p>
-                </div>
-                <div className="p-6 rounded-xl backdrop-blur-md border bg-white/5 border-white/10 mb-8 text-center">
-                  <div className="flex justify-center">
-                    <GraduationCap className="h-10 w-10 mb-4 text-purple-400" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2 text-white">Modern Interface</h3>
-                  <p className="text-white/70">Intuitive design with seamless user experience</p>
-                </div>
+                <Card className="p-6 rounded-xl backdrop-blur-md border bg-white/5 border-white/10 text-center" glowing={true} glowingProps={{ variant: "white" }}>
+                  <CardContent className="p-0">
+                    <div className="flex justify-center">
+                      <BookOpen className="h-10 w-10 mb-4 text-cyan-400" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-2 text-white">Smart Exams</h3>
+                    <p className="text-white/70">AI-powered examination system with real-time analytics</p>
+                  </CardContent>
+                </Card>
+                <Card className="p-6 rounded-xl backdrop-blur-md border bg-white/5 border-white/10 text-center" glowing={true} glowingProps={{ variant: "white" }}>
+                  <CardContent className="p-0">
+                    <div className="flex justify-center">
+                      <Award className="h-10 w-10 mb-4 text-yellow-400" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-2 text-white">Performance Tracking</h3>
+                    <p className="text-white/70">Comprehensive analytics and progress monitoring</p>
+                  </CardContent>
+                </Card>
+                <Card className="p-6 rounded-xl backdrop-blur-md border bg-white/5 border-white/10 mb-8 text-center" glowing={true} glowingProps={{ variant: "white" }}>
+                  <CardContent className="p-0">
+                    <div className="flex justify-center">
+                      <GraduationCap className="h-10 w-10 mb-4 text-purple-400" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-2 text-white">Modern Interface</h3>
+                    <p className="text-white/70">Intuitive design with seamless user experience</p>
+                  </CardContent>
+                </Card>
               </div>
             </div>
           </div>
           
           {/* Floating icons */}
           <div className="absolute top-20 left-10 animate-bounce-slow">
-            <div className="p-3 rounded-full backdrop-blur-md bg-white/10 border border-white/20">
-              <BookOpen className="h-6 w-6 text-cyan-400" />
-            </div>
+            <Card className="p-3 rounded-full backdrop-blur-md bg-white/10 border border-white/20" glowing={true} glowingProps={{ variant: "white", borderWidth: 2 }}>
+              <CardContent className="p-0">
+                <BookOpen className="h-6 w-6 text-cyan-400" />
+              </CardContent>
+            </Card>
           </div>
           <div className="absolute top-32 right-16 animate-bounce-slow animation-delay-500">
-            <div className="p-3 rounded-full backdrop-blur-md bg-white/10 border border-white/20">
-              <Award className="h-6 w-6 text-yellow-400" />
-            </div>
+            <Card className="p-3 rounded-full backdrop-blur-md bg-white/10 border border-white/20" glowing={true} glowingProps={{ variant: "white", borderWidth: 2 }}>
+              <CardContent className="p-0">
+                <Award className="h-6 w-6 text-yellow-400" />
+              </CardContent>
+            </Card>
           </div>
           <div className="absolute bottom-24 left-20 animate-bounce-slow animation-delay-1000">
-            <div className="p-4 rounded-full backdrop-blur-md bg-white/10 border border-white/20">
-              <GraduationCap className="h-8 w-8 text-purple-400" />
-            </div>
+            <Card className="p-4 rounded-full backdrop-blur-md bg-white/10 border border-white/20" glowing={true} glowingProps={{ variant: "white", borderWidth: 2 }}>
+              <CardContent className="p-0">
+                <GraduationCap className="h-8 w-8 text-purple-400" />
+              </CardContent>
+            </Card>
           </div>
           
           {/* Scroll indicator */}
@@ -343,30 +348,38 @@ export default function LandingPage() {
           
           <div className="relative z-20 container mx-auto px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-              <div className="text-center p-4 md:p-6 rounded-xl backdrop-blur-md bg-white/5 border border-white/10">
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-cyan-400 mb-2">
-                  {isLoading ? "..." : stats?.activeStudents?.toLocaleString() || "0"}
-                </div>
-                <div className="text-sm md:text-base text-white/70">Active Students</div>
-              </div>
-              <div className="text-center p-4 md:p-6 rounded-xl backdrop-blur-md bg-white/5 border border-white/10">
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-purple-400 mb-2">
-                  {isLoading ? "..." : stats?.educators?.toLocaleString() || "0"}
-                </div>
-                <div className="text-sm md:text-base text-white/70">Educators</div>
-              </div>
-              <div className="text-center p-4 md:p-6 rounded-xl backdrop-blur-md bg-white/5 border border-white/10">
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-yellow-400 mb-2">
-                  {isLoading ? "..." : stats?.examsCompleted?.toLocaleString() || "0"}
-                </div>
-                <div className="text-sm md:text-base text-white/70">Exams Completed</div>
-              </div>
-              <div className="text-center p-4 md:p-6 rounded-xl backdrop-blur-md bg-white/5 border border-white/10">
-                <div className="text-lg sm:text-2xl md:text-4xl font-bold text-green-400 mb-2 break-words">
-                  {isLoading ? "..." : stats?.uptime || "99%"}
-                </div>
-                <div className="text-sm md:text-base text-white/70">Uptime</div>
-              </div>
+              <Card className="text-center p-4 md:p-6 rounded-xl backdrop-blur-md bg-white/5 border border-white/10" glowing={true} glowingProps={{ variant: "white" }}>
+                <CardContent className="p-0">
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-cyan-400 mb-2">
+                    {isLoading ? "..." : stats?.activeStudents?.toLocaleString() || "0"}
+                  </div>
+                  <div className="text-sm md:text-base text-white/70">Active Students</div>
+                </CardContent>
+              </Card>
+              <Card className="text-center p-4 md:p-6 rounded-xl backdrop-blur-md bg-white/5 border border-white/10" glowing={true} glowingProps={{ variant: "white" }}>
+                <CardContent className="p-0">
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-purple-400 mb-2">
+                    {isLoading ? "..." : stats?.educators?.toLocaleString() || "0"}
+                  </div>
+                  <div className="text-sm md:text-base text-white/70">Educators</div>
+                </CardContent>
+              </Card>
+              <Card className="text-center p-4 md:p-6 rounded-xl backdrop-blur-md bg-white/5 border border-white/10" glowing={true} glowingProps={{ variant: "white" }}>
+                <CardContent className="p-0">
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-yellow-400 mb-2">
+                    {isLoading ? "..." : stats?.examsCompleted?.toLocaleString() || "0"}
+                  </div>
+                  <div className="text-sm md:text-base text-white/70">Exams Completed</div>
+                </CardContent>
+              </Card>
+              <Card className="text-center p-4 md:p-6 rounded-xl backdrop-blur-md bg-white/5 border border-white/10" glowing={true} glowingProps={{ variant: "white" }}>
+                <CardContent className="p-0">
+                  <div className="text-lg sm:text-2xl md:text-4xl font-bold text-green-400 mb-2 break-words">
+                    {isLoading ? "..." : stats?.uptime || "99%"}
+                  </div>
+                  <div className="text-sm md:text-base text-white/70">Uptime</div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>
@@ -382,7 +395,7 @@ export default function LandingPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30 z-10"></div>
           
           <div className="relative z-20 container mx-auto px-4 text-center">
-            <div className="max-w-4xl mx-auto p-12 rounded-3xl backdrop-blur-md border shadow-2xl bg-white/5 border-white/10">
+            <Card className="max-w-4xl mx-auto p-12 rounded-3xl backdrop-blur-md border shadow-2xl bg-white/5 border-white/10" glowing={true} glowingProps={{ variant: "white" }}>
               <h2 className="text-4xl md:text-5xl font-bold mb-8 bg-gradient-to-r bg-clip-text text-transparent from-cyan-400 via-blue-400 to-purple-400">
                 Ready to Transform Education?
               </h2>
@@ -428,20 +441,26 @@ export default function LandingPage() {
               
               {/* Additional CTA elements */}
               <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="flex items-center justify-center space-x-3 p-4 rounded-xl border bg-white/5 border-white/10">
-                  <Lock className="h-5 w-5 text-green-400" />
-                  <span className="font-medium text-white/80">Secure & Private</span>
-                </div>
-                <div className="flex items-center justify-center space-x-3 p-4 rounded-xl border bg-white/5 border-white/10">
-                  <Award className="h-5 w-5 text-yellow-400" />
-                  <span className="font-medium text-white/80">Award Winning</span>
-                </div>
-                <div className="flex items-center justify-center space-x-3 p-4 rounded-xl border bg-white/5 border-white/10">
-                  <Users className="h-5 w-5 text-blue-400" />
-                  <span className="font-medium text-white/80">24/7 Support</span>
-                </div>
+                <Card className="flex items-center justify-center space-x-3 p-4 rounded-xl border bg-white/5 border-white/10" glowing={true} glowingProps={{ variant: "white" }}>
+                  <CardContent className="p-0 flex items-center space-x-3">
+                    <Lock className="h-5 w-5 text-green-400" />
+                    <span className="font-medium text-white/80">Secure & Private</span>
+                  </CardContent>
+                </Card>
+                <Card className="flex items-center justify-center space-x-3 p-4 rounded-xl border bg-white/5 border-white/10" glowing={true} glowingProps={{ variant: "white" }}>
+                  <CardContent className="p-0 flex items-center space-x-3">
+                    <Award className="h-5 w-5 text-yellow-400" />
+                    <span className="font-medium text-white/80">Award Winning</span>
+                  </CardContent>
+                </Card>
+                <Card className="flex items-center justify-center space-x-3 p-4 rounded-xl border bg-white/5 border-white/10" glowing={true} glowingProps={{ variant: "white" }}>
+                  <CardContent className="p-0 flex items-center space-x-3">
+                    <Users className="h-5 w-5 text-blue-400" />
+                    <span className="font-medium text-white/80">24/7 Support</span>
+                  </CardContent>
+                </Card>
               </div>
-            </div>
+            </Card>
           </div>
         </section>
       </main>
@@ -490,13 +509,16 @@ export default function LandingPage() {
       </footer>
       {/* Go Up Button */}
       {showScrollButton && (
-        <div 
-          className="fixed bottom-8 right-8 z-50 p-3 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg cursor-pointer transform transition-all duration-300 hover:scale-110 hover:shadow-cyan-500/50 active:scale-95"
+        <Card 
+          className="fixed bottom-8 right-8 z-50 p-3 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg cursor-pointer transform transition-all duration-300 hover:scale-110 hover:shadow-cyan-500/50 active:scale-95 border-0"
           onClick={scrollToTop}
-          aria-label="Scroll to top"
+          glowing={true}
+          glowingProps={{ variant: "white", borderWidth: 2 }}
         >
-          <ChevronUp className="h-6 w-6" />
-        </div>
+          <CardContent className="p-0" aria-label="Scroll to top">
+            <ChevronUp className="h-6 w-6" />
+          </CardContent>
+        </Card>
       )}
     </div>
   );
