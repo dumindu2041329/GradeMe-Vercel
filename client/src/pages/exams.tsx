@@ -220,7 +220,6 @@ export default function Exams() {
           <Button 
             onClick={() => setIsCreateModalOpen(true)}
             className="bg-primary hover:bg-primary/90"
-            glowing={true}
           >
             <PlusCircle className="mr-2 h-4 w-4" />
             Create Exam
@@ -234,7 +233,6 @@ export default function Exams() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
-            glowing={true}
           />
         </div>
 

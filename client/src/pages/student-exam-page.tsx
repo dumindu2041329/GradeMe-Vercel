@@ -362,7 +362,6 @@ export default function StudentExamPage() {
           <Progress 
             value={currentProgress} 
             className="h-2"
-            glowing={true}
           />
         </div>
         
@@ -455,7 +454,6 @@ export default function StudentExamPage() {
       <Dialog open={showResultDialog} onOpenChange={setShowResultDialog}>
         <DialogContent 
           className="sm:max-w-md"
-          glowing={true}
         >
           <DialogHeader>
             <DialogTitle>Exam Results</DialogTitle>
@@ -471,7 +469,6 @@ export default function StudentExamPage() {
                   <Progress 
                     value={examResult.percentage} 
                     className="h-2 mb-2"
-                    glowing={true}
                   />
                   <p className="text-sm text-muted-foreground">
                     Your score: {examResult.percentage}% (based on questions answered)

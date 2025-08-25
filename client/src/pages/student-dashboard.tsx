@@ -122,7 +122,6 @@ export default function StudentDashboard() {
               <Progress 
                 value={dashboardData?.averageScore || 0} 
                 className="h-2"
-                glowing={true}
               />
             </CardContent>
           </Card>

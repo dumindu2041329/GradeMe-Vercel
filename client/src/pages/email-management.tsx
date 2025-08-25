@@ -211,7 +211,6 @@ export default function EmailManagementPage() {
               </DialogTrigger>
               <DialogContent 
                 className="sm:max-w-md"
-                glowing={true}
               >
                 <DialogHeader className="space-y-3">
                   <DialogTitle className="text-lg font-semibold">Send Test Email</DialogTitle>
