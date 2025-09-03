@@ -64,6 +64,14 @@ A comprehensive web application for managing student information, exams, and aca
 ## 💡 About the Project
 GradeMe is designed to streamline student information management, exam administration, and performance tracking for educational institutions. The application provides an intuitive interface for administrators, teachers, and students to access and manage academic data efficiently.
 
+## 👥 Team Members
+- **S. J. J. Dumindu Damsara**
+- **S. S. Godakanda**
+- **V. G. M. Vindani**
+- **D. S. Sahasna**
+- **A. U. Santhusha**
+- **S. W. G. Mindana**
+
 ## 🔗 Connect With Me
 [https://www.linkedin.com/in/dumindu-damsara-0049ab246/](https://www.linkedin.com/in/dumindu-damsara-0049ab246/)
 
