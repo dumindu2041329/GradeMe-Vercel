@@ -51,7 +51,7 @@ A comprehensive web application for managing student information, exams, and aca
 - 📁 File Management System
 
 ## 🌐 GitHub Repository
-[GitHub Link](https://github.com/your-username/GradeMe-Vercel)
+[GitHub Link](https://github.com/dumindu2041329/GradeMe-Vercel)
 
 ## 📎 Additional Features
 - 🎉 Confetti Animations
@@ -63,7 +63,7 @@ A comprehensive web application for managing student information, exams, and aca
 GradeMe is designed to streamline student information management, exam administration, and performance tracking for educational institutions. The application provides an intuitive interface for administrators, teachers, and students to access and manage academic data efficiently.
 
 ## 🔗 Connect With Me
-[Follow me on LinkedIn](https://www.linkedin.com/in/your-profile)
+[Follow me on LinkedIn](https://www.linkedin.com/in/dumindu-damsara-0049ab246/)
 
 ## 📎 Hashtags
 #StudentManagementSystem #WebDevelopment #FullStackDevelopment #React #NodeJS #PostgreSQL #Vercel #TechInEducation #DeveloperCommunity
