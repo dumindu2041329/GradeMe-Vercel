@@ -50,8 +50,10 @@ A comprehensive web application for managing student information, exams, and aca
 - ☁️ Cloud Storage Integration
 - 📁 File Management System
 
-## 🌐 GitHub Repository
-[GitHub Link](https://github.com/dumindu2041329/GradeMe-Vercel)
+## 🔗 Live Demo & Repository
+🌐 **Live Demo:** [https://grademe-vercel.vercel.app/](https://grademe-vercel.vercel.app/)
+
+📂 **GitHub Repository:** [GitHub Link](https://github.com/dumindu2041329/GradeMe-Vercel)
 
 ## 📎 Additional Features
 - 🎉 Confetti Animations
