@@ -55,6 +55,7 @@
     "@types/pg": "^8.15.2",
     "@types/react-helmet": "^6.1.11",
     "@types/three": "^0.176.0",
+    "@vercel/analytics": "^1.5.0",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
