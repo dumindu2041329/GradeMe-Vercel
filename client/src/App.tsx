@@ -27,6 +27,7 @@ import StudentAcademicInfo from "@/pages/student-academic-info";
 import LandingPage from "@/pages/landing";
 
 import { useEffect, useState, useRef, lazy, Suspense } from "react";
+import { Analytics } from "@vercel/analytics/react";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, isLoading } = useAuth();
@@ -395,6 +396,7 @@ function App() {
       <TooltipProvider>
         <Toaster />
         <Router />
+        <Analytics />
       </TooltipProvider>
     </QueryClientProvider>
   );
