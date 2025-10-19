@@ -75,6 +75,43 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   );
 }
 
+function ProtectedAdminRoute({ children }: { children: React.ReactNode }) {
+  const { user, isLoading } = useAuth();
+  const [location, navigate] = useLocation();
+  const [shouldRender, setShouldRender] = useState(true);
+  const isNavigatingRef = useRef(false);
+
+  useEffect(() => {
+    if (!isLoading && !isNavigatingRef.current) {
+      if (!user || user.role !== "admin") {
+        isNavigatingRef.current = true;
+        requestAnimationFrame(() => {
+          navigate("/", { replace: true });
+        });
+      } else {
+        isNavigatingRef.current = false;
+        setShouldRender(true);
+      }
+    }
+  }, [user, isLoading, navigate, location]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-background">
+        <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="content-fade content-fade-visible bg-background min-h-screen">
+      {(shouldRender && user && user.role === "admin") ? children : (
+        <div className="min-h-screen bg-background"></div>
+      )}
+    </div>
+  );
+}
+
 function ProtectedStudentRoute({ children }: { children: React.ReactNode }) {
   const { user, isLoading } = useAuth();
   const [location, navigate] = useLocation();
@@ -214,45 +251,45 @@ function Router() {
         
         {/* Admin routes */}
         <Route path="/admin">
-          <ProtectedRoute>
+          <ProtectedAdminRoute>
             <Dashboard />
-          </ProtectedRoute>
+          </ProtectedAdminRoute>
         </Route>
         
         <Route path="/exams">
-          <ProtectedRoute>
+          <ProtectedAdminRoute>
             <Exams />
-          </ProtectedRoute>
+          </ProtectedAdminRoute>
         </Route>
         
         <Route path="/exams/:examId/paper">
-          <ProtectedRoute>
+          <ProtectedAdminRoute>
             <PaperCreationPage />
-          </ProtectedRoute>
+          </ProtectedAdminRoute>
         </Route>
         
         <Route path="/students">
-          <ProtectedRoute>
+          <ProtectedAdminRoute>
             <Students />
-          </ProtectedRoute>
+          </ProtectedAdminRoute>
         </Route>
         
         <Route path="/results">
-          <ProtectedRoute>
+          <ProtectedAdminRoute>
             <Results />
-          </ProtectedRoute>
+          </ProtectedAdminRoute>
         </Route>
         
         <Route path="/profile">
-          <ProtectedRoute>
+          <ProtectedAdminRoute>
             <Profile />
-          </ProtectedRoute>
+          </ProtectedAdminRoute>
         </Route>
         
         <Route path="/email-management">
-          <ProtectedRoute>
+          <ProtectedAdminRoute>
             <EmailManagement />
-          </ProtectedRoute>
+          </ProtectedAdminRoute>
         </Route>
         
         {/* Student routes */}
