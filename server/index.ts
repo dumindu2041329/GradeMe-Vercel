@@ -76,6 +76,46 @@ app.use((req, res, next) => {
   const server = createServer(app);
   await registerRoutes(app, server);
 
+  // Protect SPA routes at the server level as well (defense-in-depth)
+  // Unauthenticated users typing /admin or /student URLs will be redirected to the landing page
+  const requireAdminPage = (req: Request, res: Response, next: NextFunction) => {
+    const user = (req as any).session?.user;
+    if (!user) {
+      return res.redirect(302, '/');
+    }
+    if (user.role !== 'admin') {
+      return res.redirect(302, '/');
+    }
+    return next();
+  };
+  const requireStudentPage = (req: Request, res: Response, next: NextFunction) => {
+    const user = (req as any).session?.user;
+    if (!user) {
+      return res.redirect(302, '/');
+    }
+    if (user.role !== 'student') {
+      return res.redirect(302, '/');
+    }
+    return next();
+  };
+
+  // Admin-only pages
+  app.get([
+    '/admin',
+    '/exams',
+    '/exams/*',
+    '/students',
+    '/results',
+    '/email-management',
+    '/profile'
+  ], requireAdminPage);
+
+  // Student-only pages
+  app.get([
+    '/student',
+    '/student/*'
+  ], requireStudentPage);
+
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
