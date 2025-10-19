@@ -15,8 +15,8 @@ import { Badge } from "@/components/ui/badge";
 import { StudentDashboardData, Exam, ResultWithDetails } from "@shared/schema";
 import { motion } from "framer-motion";
 import { useQueryClient } from "@tanstack/react-query";
-
-
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
 export default function StudentDashboard() {
   const { user } = useAuth();
@@ -65,6 +65,63 @@ export default function StudentDashboard() {
   const filteredActiveExams = filterExams(dashboardData?.activeExams, activeExamSearch);
   const filteredCompletedExams = filterExams(dashboardData?.completedExams, completedExamSearch);
   const filteredUpcomingExams = filterExams(dashboardData?.availableExams, upcomingExamSearch);
+
+  // Pagination state and helpers
+  const CARD_PAGE_SIZE = 6;
+  const HISTORY_PAGE_SIZE = 10;
+  const [activePage, setActivePage] = React.useState(1);
+  const [completedPage, setCompletedPage] = React.useState(1);
+  const [upcomingPage, setUpcomingPage] = React.useState(1);
+  const [historyPage, setHistoryPage] = React.useState(1);
+
+  // Reset page to 1 when search terms change to avoid empty pages
+  React.useEffect(() => { setActivePage(1); }, [activeExamSearch]);
+  React.useEffect(() => { setCompletedPage(1); }, [completedExamSearch]);
+  React.useEffect(() => { setUpcomingPage(1); }, [upcomingExamSearch]);
+
+  const paginate = <T,>(items: T[], page: number, pageSize: number) => {
+    const start = (page - 1) * pageSize;
+    return items.slice(start, start + pageSize);
+  };
+
+  const renderPagination = (total: number, page: number, setPage: (p: number) => void, pageSize: number) => {
+    const totalPages = Math.max(1, Math.ceil(total / pageSize));
+    if (totalPages <= 1) return null;
+    const prevDisabled = page <= 1;
+    const nextDisabled = page >= totalPages;
+    // Show up to 5 page numbers around current page
+    const pages: number[] = [];
+    const start = Math.max(1, page - 2);
+    const end = Math.min(totalPages, start + 4);
+    for (let p = start; p <= end; p++) pages.push(p);
+
+    return (
+      <Pagination className="mt-4">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious href="#" className={prevDisabled ? "pointer-events-none opacity-50" : ""} onClick={(e) => { e.preventDefault(); if (!prevDisabled) setPage(page - 1); }} />
+          </PaginationItem>
+          {pages.map(p => (
+            <PaginationItem key={p}>
+              <PaginationLink href="#" isActive={p === page} onClick={(e) => { e.preventDefault(); setPage(p); }}>
+                {p}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          <PaginationItem>
+            <PaginationNext href="#" className={nextDisabled ? "pointer-events-none opacity-50" : ""} onClick={(e) => { e.preventDefault(); if (!nextDisabled) setPage(page + 1); }} />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    );
+  };
+
+  // Paginated slices
+  const pagedActive = paginate(filteredActiveExams, activePage, CARD_PAGE_SIZE);
+  const pagedCompleted = paginate(filteredCompletedExams, completedPage, CARD_PAGE_SIZE);
+  const pagedUpcoming = paginate(filteredUpcomingExams, upcomingPage, CARD_PAGE_SIZE);
+  const historyItems = dashboardData?.examHistory || [];
+  const pagedHistory = paginate(historyItems, historyPage, HISTORY_PAGE_SIZE);
 
   if (isLoading) {
     return (
@@ -312,488 +369,499 @@ export default function StudentDashboard() {
           </motion.div>
         </div>
         
-        {/* Active Exams Section */}
+        {/* Exams Tabs */}
         <div className="mb-8">
-          <Card className="border-green-500/20 dark:border-green-500/30">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-green-700 dark:text-green-400">
-                <BookOpen className="h-5 w-5" />
-                Active Exams
-              </CardTitle>
-              <div className="relative pt-4">
-                <div className="absolute inset-y-0 left-0 pt-4 pl-3 flex items-center pointer-events-none">
-                  <Search className="h-4 w-4 text-muted-foreground" />
-                </div>
-                <Input
-                  placeholder="Search active exams by name or subject..."
-                  value={activeExamSearch}
-                  onChange={(e) => setActiveExamSearch(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-            </CardHeader>
-            <CardContent>
-              {!dashboardData?.activeExams || dashboardData.activeExams.length === 0 ? (
-                <div className="text-center py-8">
-                  <BookOpen className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
-                  <p className="text-muted-foreground">No active exams at the moment.</p>
-                  <p className="text-sm text-muted-foreground mt-1">Active exams will appear here when available.</p>
-                </div>
-              ) : filteredActiveExams.length === 0 ? (
-                <div className="text-center py-8">
-                  <Search className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
-                  <p className="text-muted-foreground">No active exams match your search.</p>
-                  <p className="text-sm text-muted-foreground mt-1">Try adjusting your search terms.</p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4">
-                  {filteredActiveExams.map((exam) => {
-                    const examDate = new Date(exam.date);
-                    
-                    return (
-                      <div 
-                        key={exam.id} 
-                        className="p-4 sm:p-6 border border-green-200 dark:border-green-800 rounded-lg bg-green-50 dark:bg-green-950/30 hover:border-green-300 dark:hover:border-green-700 transition-colors relative overflow-hidden group"
-                      >
-                        <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-green-500 to-green-600"></div>
+          <Tabs defaultValue="active">
+            <div className="flex items-center justify-between mb-4">
+              <TabsList>
+                <TabsTrigger value="active">Active Exams</TabsTrigger>
+                <TabsTrigger value="completed">Completed Exams</TabsTrigger>
+                <TabsTrigger value="upcoming">Upcoming Exams</TabsTrigger>
+                <TabsTrigger value="recommendations">Study Recommendations</TabsTrigger>
+                <TabsTrigger value="history">Exam History</TabsTrigger>
+              </TabsList>
+            </div>
+
+            <TabsContent value="active">
+              <Card className="border-green-500/20 dark:border-green-500/30">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-green-700 dark:text-green-400">
+                    <BookOpen className="h-5 w-5" />
+                    Active Exams
+                  </CardTitle>
+                  <div className="relative pt-4">
+                    <div className="absolute inset-y-0 left-0 pt-4 pl-3 flex items-center pointer-events-none">
+                      <Search className="h-4 w-4 text-muted-foreground" />
+                    </div>
+                    <Input
+                      placeholder="Search active exams by name or subject..."
+                      value={activeExamSearch}
+                      onChange={(e) => setActiveExamSearch(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  {!dashboardData?.activeExams || dashboardData.activeExams.length === 0 ? (
+                    <div className="text-center py-8">
+                      <BookOpen className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
+                      <p className="text-muted-foreground">No active exams at the moment.</p>
+                      <p className="text-sm text-muted-foreground mt-1">Active exams will appear here when available.</p>
+                    </div>
+                  ) : filteredActiveExams.length === 0 ? (
+                    <div className="text-center py-8">
+                      <Search className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
+                      <p className="text-muted-foreground">No active exams match your search.</p>
+                      <p className="text-sm text-muted-foreground mt-1">Try adjusting your search terms.</p>
+                    </div>
+                  ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4">
+                      {pagedActive.map((exam) => {
+                        const examDate = new Date(exam.date);
                         
-                        <div className="space-y-4">
-                          <div className="space-y-2">
-                            <div className="flex items-center gap-3">
-                              <h3 className="font-semibold text-lg text-green-800 dark:text-green-200">{exam.name}</h3>
-                              <Badge variant="default" className="bg-green-600 text-white text-xs">
-                                Active
-                              </Badge>
-                            </div>
-                            <p className="text-sm text-green-700 dark:text-green-300 font-medium">{exam.subject}</p>
-                          </div>
-                          
-                          <div className="grid grid-cols-1 gap-3 text-sm">
-                            <div className="flex items-center gap-2">
-                              <Calendar className="h-4 w-4 text-muted-foreground" />
-                              <span>{examDate.toLocaleDateString()}</span>
-                            </div>
-                            {exam.startTime && (
-                              <div className="flex items-center gap-2">
-                                <Clock className="h-4 w-4 text-muted-foreground" />
-                                <span className="text-green-600 dark:text-green-400 font-medium">
-                                  Start Time: {new Date(exam.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-                                </span>
-                              </div>
-                            )}
-                            <div className="flex items-center gap-2">
-                              <Clock className="h-4 w-4 text-muted-foreground" />
-                              <span>Duration: {exam.duration} min</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Target className="h-4 w-4 text-muted-foreground" />
-                              <span>{exam.totalMarks} marks</span>
-                            </div>
-                          </div>
-                          
-                          <Button 
-                            className="w-full bg-green-600 hover:bg-green-700 text-white" 
-                            onClick={() => navigate(`/student/exam/${exam.id}`)}
+                        return (
+                          <div 
+                            key={exam.id} 
+                            className="p-4 sm:p-6 border border-green-200 dark:border-green-800 rounded-lg bg-green-50 dark:bg-green-950/30 hover:border-green-300 dark:hover:border-green-700 transition-colors relative overflow-hidden group"
                           >
-                            <BookOpen className="h-4 w-4 mr-2" />
-                            Start Exam
-                            <ArrowRight className="h-4 w-4 ml-2" />
-                          </Button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
+                            <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-green-500 to-green-600"></div>
+                            
+                            <div className="space-y-4">
+                              <div className="space-y-2">
+                                <div className="flex items-center gap-3">
+                                  <h3 className="font-semibold text-lg text-green-800 dark:text-green-200">{exam.name}</h3>
+                                  <Badge variant="default" className="bg-green-600 text-white text-xs">
+                                    Active
+                                  </Badge>
+                                </div>
+                                <p className="text-sm text-green-700 dark:text-green-300 font-medium">{exam.subject}</p>
+                              </div>
+                              
+                              <div className="grid grid-cols-1 gap-3 text-sm">
+                                <div className="flex items-center gap-2">
+                                  <Calendar className="h-4 w-4 text-muted-foreground" />
+                                  <span>{examDate.toLocaleDateString()}</span>
+                                </div>
+                                {exam.startTime && (
+                                  <div className="flex items-center gap-2">
+                                    <Clock className="h-4 w-4 text-muted-foreground" />
+                                    <span className="text-green-600 dark:text-green-400 font-medium">
+                                      Start Time: {new Date(exam.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                                    </span>
+                                  </div>
+                                )}
+                                <div className="flex items-center gap-2">
+                                  <Clock className="h-4 w-4 text-muted-foreground" />
+                                  <span>Duration: {exam.duration} min</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <Target className="h-4 w-4 text-muted-foreground" />
+                                  <span>{exam.totalMarks} marks</span>
+                                </div>
+                              </div>
+                              
+                              <Button 
+                                className="w-full bg-green-600 hover:bg-green-700 text-white" 
+                                onClick={() => navigate(`/student/exam/${exam.id}`)}
+                              >
+                                <BookOpen className="h-4 w-4 mr-2" />
+                                Start Exam
+                                <ArrowRight className="h-4 w-4 ml-2" />
+                              </Button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                  {renderPagination(filteredActiveExams.length, activePage, setActivePage, CARD_PAGE_SIZE)}
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-
-
-        {/* Completed Exams Section */}
-        <div className="mb-8">
-          <Card className="border-blue-500/20 dark:border-blue-500/30">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-blue-700 dark:text-blue-400">
-                <Award className="h-5 w-5" />
-                Completed Exams
-              </CardTitle>
-              <div className="relative pt-4">
-                <div className="absolute inset-y-0 left-0 pt-4 pl-3 flex items-center pointer-events-none">
-                  <Search className="h-4 w-4 text-muted-foreground" />
-                </div>
-                <Input
-                  placeholder="Search completed exams by name or subject..."
-                  value={completedExamSearch}
-                  onChange={(e) => setCompletedExamSearch(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-            </CardHeader>
-            <CardContent>
-              {!dashboardData?.completedExams || dashboardData.completedExams.length === 0 ? (
-                <div className="text-center py-8">
-                  <Award className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
-                  <p className="text-muted-foreground">No completed exams yet.</p>
-                  <p className="text-sm text-muted-foreground mt-1">Completed exams will appear here after you finish them.</p>
-                </div>
-              ) : filteredCompletedExams.length === 0 ? (
-                <div className="text-center py-8">
-                  <Search className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
-                  <p className="text-muted-foreground">No completed exams match your search.</p>
-                  <p className="text-sm text-muted-foreground mt-1">Try adjusting your search terms.</p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4">
-                  {filteredCompletedExams.map((exam) => {
-                    const examDate = new Date(exam.date);
-                    const studentResult = dashboardData.examHistory.find(result => result.exam.id === exam.id);
-                    
-                    return (
-                      <div 
-                        key={exam.id} 
-                        className="p-4 sm:p-6 border border-blue-200 dark:border-blue-800 rounded-lg bg-blue-50 dark:bg-blue-950/30 hover:border-blue-300 dark:hover:border-blue-700 transition-colors relative overflow-hidden group"
-                      >
-                        <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-blue-500 to-blue-600"></div>
+            <TabsContent value="completed">
+              <Card className="border-blue-500/20 dark:border-blue-500/30">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-blue-700 dark:text-blue-400">
+                    <Award className="h-5 w-5" />
+                    Completed Exams
+                  </CardTitle>
+                  <div className="relative pt-4">
+                    <div className="absolute inset-y-0 left-0 pt-4 pl-3 flex items-center pointer-events-none">
+                      <Search className="h-4 w-4 text-muted-foreground" />
+                    </div>
+                    <Input
+                      placeholder="Search completed exams by name or subject..."
+                      value={completedExamSearch}
+                      onChange={(e) => setCompletedExamSearch(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  {!dashboardData?.completedExams || dashboardData.completedExams.length === 0 ? (
+                    <div className="text-center py-8">
+                      <Award className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
+                      <p className="text-muted-foreground">No completed exams yet.</p>
+                      <p className="text-sm text-muted-foreground mt-1">Completed exams will appear here after you finish them.</p>
+                    </div>
+                  ) : filteredCompletedExams.length === 0 ? (
+                    <div className="text-center py-8">
+                      <Search className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
+                      <p className="text-muted-foreground">No completed exams match your search.</p>
+                      <p className="text-sm text-muted-foreground mt-1">Try adjusting your search terms.</p>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4">
+                      {pagedCompleted.map((exam) => {
+                        const examDate = new Date(exam.date);
+                        const studentResult = dashboardData.examHistory.find(result => result.exam.id === exam.id);
                         
-                        <div className="space-y-4">
-                          <div className="space-y-2">
-                            <div className="flex items-center gap-3">
-                              <h3 className="font-semibold text-lg text-blue-800 dark:text-blue-200">{exam.name}</h3>
-                              <Badge variant="secondary" className="bg-blue-600 text-white text-xs">
-                                Completed
-                              </Badge>
-                            </div>
-                            <p className="text-sm text-blue-700 dark:text-blue-300 font-medium">{exam.subject}</p>
-                          </div>
-                          
-                          <div className="grid grid-cols-1 gap-3 text-sm">
-                            <div className="flex items-center gap-2">
-                              <Calendar className="h-4 w-4 text-muted-foreground" />
-                              <span>{examDate.toLocaleDateString()}</span>
-                            </div>
-                            {exam.startTime && (
-                              <div className="flex items-center gap-2">
-                                <Clock className="h-4 w-4 text-muted-foreground" />
-                                <span className="text-blue-600 dark:text-blue-400 font-medium">
-                                  Start Time: {new Date(exam.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-                                </span>
-                              </div>
-                            )}
-                            <div className="flex items-center gap-2">
-                              <Target className="h-4 w-4 text-muted-foreground" />
-                              <span>{exam.totalMarks} marks</span>
-                            </div>
-                            {studentResult && (
-                              <div className="flex items-center gap-2">
-                                <BarChart2 className="h-4 w-4 text-muted-foreground" />
-                                <span className="font-medium">
-                                  Score: {studentResult.score}/{exam.totalMarks} ({studentResult.percentage}%)
-                                </span>
-                              </div>
-                            )}
-                          </div>
-
-                          {studentResult && (
-                            <div className="pt-2 border-t border-blue-200 dark:border-blue-800">
-                              <div className="flex justify-between items-center text-sm">
-                                <span className="text-muted-foreground">Performance</span>
-                                <span className={`font-medium ${
-                                  parseFloat(studentResult.percentage) >= 80 ? 'text-green-600' :
-                                  parseFloat(studentResult.percentage) >= 60 ? 'text-yellow-600' :
-                                  'text-red-600'
-                                }`}>
-                                  {parseFloat(studentResult.percentage) >= 80 ? 'Excellent' :
-                                   parseFloat(studentResult.percentage) >= 60 ? 'Good' : 'Needs Improvement'}
-                                </span>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Upcoming Exams with Enhanced Design */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          <div className="lg:col-span-2">
-            <Card className="border-primary/10 dark:border-primary/20" glowing={true}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Calendar className="h-5 w-5" />
-                  Upcoming Exams
-                </CardTitle>
-                <div className="relative pt-4">
-                  <div className="absolute inset-y-0 left-0 pt-4 pl-3 flex items-center pointer-events-none">
-                    <Search className="h-4 w-4 text-muted-foreground" />
-                  </div>
-                  <Input
-                    placeholder="Search upcoming exams by name or subject..."
-                    value={upcomingExamSearch}
-                    onChange={(e) => setUpcomingExamSearch(e.target.value)}
-                    className="pl-10"
-                  />
-                </div>
-              </CardHeader>
-              <CardContent>
-                {!dashboardData?.availableExams || dashboardData.availableExams.length === 0 ? (
-                  <div className="text-center py-12">
-                    <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                    <p className="text-muted-foreground">No exams scheduled at the moment.</p>
-                    <p className="text-sm text-muted-foreground mt-2">Check back later for new assignments.</p>
-                  </div>
-                ) : filteredUpcomingExams.length === 0 ? (
-                  <div className="text-center py-12">
-                    <Search className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
-                    <p className="text-muted-foreground">No upcoming exams match your search.</p>
-                    <p className="text-sm text-muted-foreground mt-1">Try adjusting your search terms.</p>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    {filteredUpcomingExams.map((exam) => {
-                      const examDate = new Date(exam.date);
-                      const isToday = examDate.toDateString() === new Date().toDateString();
-                      const isUpcoming = examDate > new Date();
-                      
-                      return (
-                        <div 
-                          key={exam.id} 
-                          className="p-6 border border-border rounded-lg hover:border-primary/30 transition-colors relative overflow-hidden group"
-                        >
-                          <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary to-primary/50"></div>
-                          
-                          <div className="flex justify-between items-start mb-4">
-                            <div className="space-y-2">
-                              <div className="flex items-center gap-3">
-                                <h3 className="font-semibold text-lg">{exam.name}</h3>
-                                {isToday && (
-                                  <Badge variant="destructive" className="text-xs">
-                                    Today
+                        return (
+                          <div 
+                            key={exam.id} 
+                            className="p-4 sm:p-6 border border-blue-200 dark:border-blue-800 rounded-lg bg-blue-50 dark:bg-blue-950/30 hover:border-blue-300 dark:hover:border-blue-700 transition-colors relative overflow-hidden group"
+                          >
+                            <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-blue-500 to-blue-600"></div>
+                            
+                            <div className="space-y-4">
+                              <div className="space-y-2">
+                                <div className="flex items-center gap-3">
+                                  <h3 className="font-semibold text-lg text-blue-800 dark:text-blue-200">{exam.name}</h3>
+                                  <Badge variant="secondary" className="bg-blue-600 text-white text-xs">
+                                    Completed
                                   </Badge>
+                                </div>
+                                <p className="text-sm text-blue-700 dark:text-blue-300 font-medium">{exam.subject}</p>
+                              </div>
+                              
+                              <div className="grid grid-cols-1 gap-3 text-sm">
+                                <div className="flex items-center gap-2">
+                                  <Calendar className="h-4 w-4 text-muted-foreground" />
+                                  <span>{examDate.toLocaleDateString()}</span>
+                                </div>
+                                {exam.startTime && (
+                                  <div className="flex items-center gap-2">
+                                    <Clock className="h-4 w-4 text-muted-foreground" />
+                                    <span className="text-blue-600 dark:text-blue-400 font-medium">
+                                      Start Time: {new Date(exam.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                                    </span>
+                                  </div>
                                 )}
-                                {isUpcoming && !isToday && (
-                                  <Badge variant="secondary" className="text-xs">
-                                    Upcoming
-                                  </Badge>
+                                <div className="flex items-center gap-2">
+                                  <Target className="h-4 w-4 text-muted-foreground" />
+                                  <span>{exam.totalMarks} marks</span>
+                                </div>
+                                {studentResult && (
+                                  <div className="flex items-center gap-2">
+                                    <BarChart2 className="h-4 w-4 text-muted-foreground" />
+                                    <span className="font-medium">
+                                      Score: {studentResult.score}/{exam.totalMarks} ({studentResult.percentage}%)
+                                    </span>
+                                  </div>
                                 )}
                               </div>
-                              <p className="text-sm text-muted-foreground font-medium">{exam.subject}</p>
-                            </div>
-                            <div className="text-sm text-muted-foreground">
-                              Scheduled
-                            </div>
-                          </div>
-                          
-                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
-                            <div className="flex items-center gap-2">
-                              <Calendar className="h-4 w-4 text-muted-foreground" />
-                              <span>{examDate.toLocaleDateString()}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Clock className="h-4 w-4 text-muted-foreground" />
-                              {exam.startTime ? (
-                                <span className="text-primary font-medium">
-                                  {new Date(exam.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-                                </span>
-                              ) : (
-                                <span className="text-muted-foreground">Time TBA</span>
+
+                              {studentResult && (
+                                <div className="pt-2 border-t border-blue-200 dark:border-blue-800">
+                                  <div className="flex justify-between items-center text-sm">
+                                    <span className="text-muted-foreground">Performance</span>
+                                    <span className={`font-medium ${
+                                      parseFloat(studentResult.percentage) >= 80 ? 'text-green-600' :
+                                      parseFloat(studentResult.percentage) >= 60 ? 'text-yellow-600' :
+                                      'text-red-600'
+                                    }`}>
+                                      {parseFloat(studentResult.percentage) >= 80 ? 'Excellent' :
+                                       parseFloat(studentResult.percentage) >= 60 ? 'Good' : 'Needs Improvement'}
+                                    </span>
+                                  </div>
+                                </div>
                               )}
                             </div>
-                            <div className="flex items-center gap-2">
-                              <Clock className="h-4 w-4 text-muted-foreground" />
-                              <span>{exam.duration} min</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Target className="h-4 w-4 text-muted-foreground" />
-                              <span>{exam.totalMarks} marks</span>
-                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                  {renderPagination(filteredCompletedExams.length, completedPage, setCompletedPage, CARD_PAGE_SIZE)}
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-          {/* Personalized Recommendations */}
-          <Card className="border-primary/10 dark:border-primary/20" glowing={true}>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Target className="h-5 w-5" />
-                Study Recommendations
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {dashboardData?.examHistory && dashboardData.examHistory.length > 0 ? (
-                <>
-                  {(() => {
-                    const avgScore = dashboardData.averageScore || 0;
-                    const recentExams = dashboardData.examHistory.slice(0, 3);
-                    const improvementNeeded = avgScore < 75;
-                    
-                    return (
-                      <>
-                        <div className="p-4 bg-muted/50 rounded-lg">
-                          <h4 className="font-medium mb-2">Performance Insights</h4>
-                          <div className="space-y-2 text-sm">
-                            {avgScore >= 85 && (
-                              <div className="flex items-center gap-2 text-green-600">
-                                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                                Excellent performance! Keep it up!
-                              </div>
-                            )}
-                            {avgScore >= 70 && avgScore < 85 && (
-                              <div className="flex items-center gap-2 text-blue-600">
-                                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                                Good progress. Aim for 85%+
-                              </div>
-                            )}
-                            {avgScore < 70 && (
-                              <div className="flex items-center gap-2 text-orange-600">
-                                <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                                Focus on improvement areas
-                              </div>
-                            )}
-                          </div>
+            <TabsContent value="upcoming">
+              <Card className="border-primary/10 dark:border-primary/20" glowing={true}>
+                <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <Calendar className="h-5 w-5" />
+                        Upcoming Exams
+                      </CardTitle>
+                      <div className="relative pt-4">
+                        <div className="absolute inset-y-0 left-0 pt-4 pl-3 flex items-center pointer-events-none">
+                          <Search className="h-4 w-4 text-muted-foreground" />
                         </div>
-
-                        <div className="space-y-3">
-                          <h4 className="font-medium">Quick Tips</h4>
-                          <div className="space-y-2 text-sm text-muted-foreground">
-                            {improvementNeeded ? (
-                              <>
-                                <div className="flex items-start gap-2">
-                                  <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2"></div>
-                                  <span>Review previous exam topics</span>
-                                </div>
-                                <div className="flex items-start gap-2">
-                                  <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2"></div>
-                                  <span>Practice time management</span>
-                                </div>
-                                <div className="flex items-start gap-2">
-                                  <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2"></div>
-                                  <span>Focus on weak areas</span>
-                                </div>
-                              </>
-                            ) : (
-                              <>
-                                <div className="flex items-start gap-2">
-                                  <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2"></div>
-                                  <span>Maintain consistent study schedule</span>
-                                </div>
-                                <div className="flex items-start gap-2">
-                                  <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2"></div>
-                                  <span>Challenge yourself with harder topics</span>
-                                </div>
-                                <div className="flex items-start gap-2">
-                                  <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2"></div>
-                                  <span>Help classmates to reinforce learning</span>
-                                </div>
-                              </>
-                            )}
-                          </div>
+                        <Input
+                          placeholder="Search upcoming exams by name or subject..."
+                          value={upcomingExamSearch}
+                          onChange={(e) => setUpcomingExamSearch(e.target.value)}
+                          className="pl-10"
+                        />
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      {!dashboardData?.availableExams || dashboardData.availableExams.length === 0 ? (
+                        <div className="text-center py-12">
+                          <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                          <p className="text-muted-foreground">No exams scheduled at the moment.</p>
+                          <p className="text-sm text-muted-foreground mt-2">Check back later for new assignments.</p>
                         </div>
-                      </>
-                    );
-                  })()}
-                </>
-              ) : (
-                <div className="text-center py-8">
-                  <BookOpen className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
-                  <p className="text-sm text-muted-foreground">Complete your first exam to get personalized recommendations!</p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Exam History */}
-        <Card className="border-primary/10 dark:border-primary/20" glowing={true}>
-          <CardHeader>
-            <CardTitle>Exam History</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {dashboardData?.examHistory?.length === 0 ? (
-              <p className="text-muted-foreground text-center py-4">No exam history available.</p>
-            ) : (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Exam</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Score</TableHead>
-                    <TableHead>Rank</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {dashboardData?.examHistory?.map((result) => {
-                    // Calculate grade based on percentage
-                    let grade;
-                    const percentage = parseFloat(result.percentage.toString());
-                    if (percentage >= 90) grade = "A+";
-                    else if (percentage >= 80) grade = "A";
-                    else if (percentage >= 70) grade = "B";
-                    else if (percentage >= 60) grade = "C";
-                    else if (percentage >= 50) grade = "D";
-                    else grade = "F";
-                    
-                    // Determine progress bar color based on percentage
-                    let progressColor;
-                    if (percentage >= 80) progressColor = "bg-green-500 dark:bg-green-600";
-                    else if (percentage >= 70) progressColor = "bg-blue-500 dark:bg-blue-600";
-                    else if (percentage >= 60) progressColor = "bg-amber-500 dark:bg-amber-600";
-                    else if (percentage >= 50) progressColor = "bg-orange-500 dark:bg-orange-600";
-                    else progressColor = "bg-red-500 dark:bg-red-600";
-                    
-                    return (
-                      <TableRow key={result.id}>
-                        <TableCell className="font-medium">
-                          <div>
-                            {result.exam.name}
-                            {/* Include subject if available in the data model */}
-                            {'subject' in result.exam && (
-                              <p className="text-xs text-muted-foreground">{(result.exam as any).subject}</p>
-                            )}
-                          </div>
-                        </TableCell>
-                        <TableCell>{new Date(result.submittedAt).toLocaleDateString()}</TableCell>
-                        <TableCell>
-                          <div className="flex flex-col gap-1 w-full">
-                            <div className="flex justify-between text-xs">
-                              <span className="font-medium">{result.percentage}%</span>
-                              <span>{result.score}/{result.exam.totalMarks} marks</span>
-                            </div>
-                            <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
+                      ) : filteredUpcomingExams.length === 0 ? (
+                        <div className="text-center py-12">
+                          <Search className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
+                          <p className="text-muted-foreground">No upcoming exams match your search.</p>
+                          <p className="text-sm text-muted-foreground mt-1">Try adjusting your search terms.</p>
+                        </div>
+                      ) : (
+                    <div className="space-y-4">
+                          {pagedUpcoming.map((exam) => {
+                            const examDate = new Date(exam.date);
+                            const isToday = examDate.toDateString() === new Date().toDateString();
+                            const isUpcoming = examDate > new Date();
+                            
+                            return (
                               <div 
-                                className={`h-full ${progressColor}`} 
-                                style={{ width: `${result.percentage}%` }}
-                              ></div>
+                                key={exam.id} 
+                                className="p-6 border border-border rounded-lg hover:border-primary/30 transition-colors relative overflow-hidden group"
+                              >
+                                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary to-primary/50"></div>
+                                
+                                <div className="flex justify-between items-start mb-4">
+                                  <div className="space-y-2">
+                                    <div className="flex items-center gap-3">
+                                      <h3 className="font-semibold text-lg">{exam.name}</h3>
+                                      {isToday && (
+                                        <Badge variant="destructive" className="text-xs">
+                                          Today
+                                        </Badge>
+                                      )}
+                                      {isUpcoming && !isToday && (
+                                        <Badge variant="secondary" className="text-xs">
+                                          Upcoming
+                                        </Badge>
+                                      )}
+                                    </div>
+                                    <p className="text-sm text-muted-foreground font-medium">{exam.subject}</p>
+                                  </div>
+                                  <div className="text-sm text-muted-foreground">
+                                    Scheduled
+                                  </div>
+                                </div>
+                                
+                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
+                                  <div className="flex items-center gap-2">
+                                    <Calendar className="h-4 w-4 text-muted-foreground" />
+                                    <span>{examDate.toLocaleDateString()}</span>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <Clock className="h-4 w-4 text-muted-foreground" />
+                                    {exam.startTime ? (
+                                      <span className="text-primary font-medium">
+                                        {new Date(exam.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                                      </span>
+                                    ) : (
+                                      <span className="text-muted-foreground">Time TBA</span>
+                                    )}
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <Clock className="h-4 w-4 text-muted-foreground" />
+                                    <span>{exam.duration} min</span>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <Target className="h-4 w-4 text-muted-foreground" />
+                                    <span>{exam.totalMarks} marks</span>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+                      {renderPagination(filteredUpcomingExams.length, upcomingPage, setUpcomingPage, CARD_PAGE_SIZE)}
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+
+            <TabsContent value="recommendations">
+              <Card className="border-primary/10 dark:border-primary/20" glowing={true}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Target className="h-5 w-5" />
+                    Study Recommendations
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {dashboardData?.examHistory && dashboardData.examHistory.length > 0 ? (
+                    <>
+                      {(() => {
+                        const avgScore = dashboardData.averageScore || 0;
+                        const recentExams = dashboardData.examHistory.slice(0, 3);
+                        const improvementNeeded = avgScore < 75;
+                        
+                        return (
+                          <>
+                            <div className="p-4 bg-muted/50 rounded-lg">
+                              <h4 className="font-medium mb-2">Performance Insights</h4>
+                              <div className="space-y-2 text-sm">
+                                {avgScore >= 85 && (
+                                  <div className="flex items-center gap-2 text-green-600">
+                                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                    Excellent performance! Keep it up!
+                                  </div>
+                                )}
+                                {avgScore >= 70 && avgScore < 85 && (
+                                  <div className="flex items-center gap-2 text-blue-600">
+                                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                    Good progress. Aim for 85%+
+                                  </div>
+                                )}
+                                {avgScore < 70 && (
+                                  <div className="flex items-center gap-2 text-orange-600">
+                                    <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                                    Focus on improvement areas
+                                  </div>
+                                )}
+                              </div>
                             </div>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-2">
-                            <span className="bg-primary/10 text-primary px-2 py-1 rounded-md text-xs font-medium">
-                              {result.rank} of {result.totalParticipants}
-                            </span>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            )}
-          </CardContent>
-        </Card>
+
+                            <div className="space-y-3">
+                              <h4 className="font-medium">Quick Tips</h4>
+                              <div className="space-y-2 text-sm text-muted-foreground">
+                                {improvementNeeded ? (
+                                  <>
+                                    <div className="flex items-start gap-2">
+                                      <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2"></div>
+                                      <span>Review previous exam topics</span>
+                                    </div>
+                                    <div className="flex items-start gap-2">
+                                      <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2"></div>
+                                      <span>Practice time management</span>
+                                    </div>
+                                    <div className="flex items-start gap-2">
+                                      <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2"></div>
+                                      <span>Focus on weak areas</span>
+                                    </div>
+                                  </>
+                                ) : (
+                                  <>
+                                    <div className="flex items-start gap-2">
+                                      <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2"></div>
+                                      <span>Maintain consistent study schedule</span>
+                                    </div>
+                                    <div className="flex items-start gap-2">
+                                      <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2"></div>
+                                      <span>Challenge yourself with harder topics</span>
+                                    </div>
+                                    <div className="flex items-start gap-2">
+                                      <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2"></div>
+                                      <span>Help classmates to reinforce learning</span>
+                                    </div>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                          </>
+                        );
+                      })()}
+                    </>
+                  ) : (
+                    <div className="text-center py-8">
+                      <BookOpen className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
+                      <p className="text-sm text-muted-foreground">Complete your first exam to get personalized recommendations!</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="history">
+              <Card className="border-primary/10 dark:border-primary/20" glowing={true}>
+                <CardHeader>
+                  <CardTitle>Exam History</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {dashboardData?.examHistory?.length === 0 ? (
+                    <p className="text-muted-foreground text-center py-4">No exam history available.</p>
+                  ) : (
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Exam</TableHead>
+                          <TableHead>Date</TableHead>
+                          <TableHead>Score</TableHead>
+                          <TableHead>Rank</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {pagedHistory.map((result) => {
+                          let grade;
+                          const percentage = parseFloat(result.percentage.toString());
+                          if (percentage >= 90) grade = "A+";
+                          else if (percentage >= 80) grade = "A";
+                          else if (percentage >= 70) grade = "B";
+                          else if (percentage >= 60) grade = "C";
+                          else if (percentage >= 50) grade = "D";
+                          else grade = "F";
+                          
+                          let progressColor;
+                          if (percentage >= 80) progressColor = "bg-green-500 dark:bg-green-600";
+                          else if (percentage >= 70) progressColor = "bg-blue-500 dark:bg-blue-600";
+                          else if (percentage >= 60) progressColor = "bg-amber-500 dark:bg-amber-600";
+                          else if (percentage >= 50) progressColor = "bg-orange-500 dark:bg-orange-600";
+                          else progressColor = "bg-red-500 dark:bg-red-600";
+                          
+                          return (
+                            <TableRow key={result.id}>
+                              <TableCell className="font-medium">
+                                <div>
+                                  {result.exam.name}
+                                  {'subject' in result.exam && (
+                                    <p className="text-xs text-muted-foreground">{(result.exam as any).subject}</p>
+                                  )}
+                                </div>
+                              </TableCell>
+                              <TableCell>{new Date(result.submittedAt).toLocaleDateString()}</TableCell>
+                              <TableCell>
+                                <div className="flex flex-col gap-1 w-full">
+                                  <div className="flex justify-between text-xs">
+                                    <span className="font-medium">{result.percentage}%</span>
+                                    <span>{result.score}/{result.exam.totalMarks} marks</span>
+                                  </div>
+                                  <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
+                                    <div 
+                                      className={`h-full ${progressColor}`} 
+                                      style={{ width: `${result.percentage}%` }}
+                                    ></div>
+                                  </div>
+                                </div>
+                              </TableCell>
+                              <TableCell>
+                                <div className="flex items-center gap-2">
+                                  <span className="bg-primary/10 text-primary px-2 py-1 rounded-md text-xs font-medium">
+                                    {result.rank} of {result.totalParticipants}
+                                  </span>
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
+                      </TableBody>
+                    </Table>
+                  )}
+                  {renderPagination(historyItems.length, historyPage, setHistoryPage, HISTORY_PAGE_SIZE)}
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </div>
       </main>
     </div>
   );
